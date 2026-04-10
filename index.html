@@ -42,21 +42,19 @@
         .header a { color: var(--accent-blue); text-decoration: none; font-weight: bold; }
         .created-by { margin-top: 10px; font-size: 11px; color: #94a3b8; }
 
-        /* Tabs Styling */
         .tabs { display: flex; background: #1e293b; border-bottom: 2px solid #334155; }
         .tab-btn { 
-            flex: 1; padding: 15px; text-align: center; color: var(--text-gray); 
+            flex: 1; padding: 12px 5px; text-align: center; color: var(--text-gray); 
             background: none; border: none; font-weight: bold; cursor: pointer; 
-            transition: 0.3s; font-size: 14px;
+            transition: 0.3s; font-size: 12px; text-transform: uppercase;
         }
         .tab-btn.active { color: #fff; border-bottom: 3px solid var(--accent-blue); background: var(--primary-bg); }
         .tab-content { display: none; }
         .tab-content.active { display: block; animation: fadeIn 0.4s ease; }
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
-        /* Common Elements */
-        .diagram-container { width: 100%; background: #fff; padding: 10px 0; text-align: center; border-bottom: 1px solid #eee; }
-        .diagram-container img { max-width: 90%; height: auto; border-radius: 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); }
+        .diagram-container { width: 100%; background: #fff; padding: 20px 0; text-align: center; }
+        .diagram-container img { max-width: 95%; height: auto; border-radius: 12px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); }
         
         .main-container { padding: 20px; }
         .group { padding: 15px 20px; border-bottom: 1px solid #f1f5f9; }
@@ -86,10 +84,7 @@
         .res-line b { color: #fff; }
         .offset-title { color: #10b981; font-size: 10px; font-weight: bold; text-transform: uppercase; margin: 20px 0 10px 0; padding-bottom: 5px; border-bottom: 1px dashed #334155; }
 
-        .export-btn { 
-            width: 100%; padding: 14px; background: transparent; color: var(--accent-blue); 
-            border: 2px solid var(--accent-blue); border-radius: 10px; margin-top: 20px; cursor: pointer; font-weight: 800; 
-        }
+        .export-btn { width: 100%; padding: 14px; background: transparent; color: var(--accent-blue); border: 2px solid var(--accent-blue); border-radius: 10px; margin-top: 20px; cursor: pointer; font-weight: 800; }
         .report-btn { background: #64748b; color: white; border: none; padding: 14px; border-radius: 10px; cursor: pointer; font-size: 14px; font-weight: bold; width: 100%; margin-top: 20px; }
 
         .footer { padding: 25px; font-size: 11px; color: #64748b; text-align: center; background: #fafafa; border-top: 1px solid #eee; }
@@ -100,21 +95,18 @@
 <div class="card">
     <div class="header">
         <h1>Excavator Tools</h1>
-        <p>Measurements & Calibration</p>
+        <p>Surveying & Calibration Hub</p>
         <div class="created-by">Created by: <a href="https://linkedin.com/in/mohamed-shehata-m045" target="_blank">Mohamed Shehata</a></div>
     </div>
 
     <div class="tabs">
         <button class="tab-btn active" onclick="openTab(event, 'tab-measurements')">Measurements</button>
         <button class="tab-btn" onclick="openTab(event, 'tab-calibration')">Calibration</button>
+        <button class="tab-btn" onclick="openTab(event, 'tab-diagram')">Diagram</button>
     </div>
 
     <div id="tab-measurements" class="tab-content active">
-        <div class="diagram-container">
-            <img src="excavator-diagram.png" alt="Excavator Diagram" onerror="this.style.display='none'">
-        </div>
-
-        <div class="group" style="background: #f8fbff;">
+        <div class="group" style="background: #f8fbff; margin-top:10px;">
             <span class="group-title">ANTENNA 1</span>
             <div class="input-row">
                 <div class="input-col"><label>X1</label><input type="number" step="0.001" id="X1" placeholder="-"></div>
@@ -181,28 +173,19 @@
 
         <div id="resultsMeasurements" class="results-area">
             <div style="border-bottom: 2px solid var(--accent-blue); padding-bottom: 10px; font-size: 16px; font-weight: bold; color: var(--accent-blue);">MEASUREMENTS RESULTS</div>
-            
             <div class="res-line"><span>Machine Heading:</span> <b id="out-mH">-</b></div>
-            <div class="res-line" style="border-left: 3px solid #fcd34d; padding-left: 10px;">
-                <span style="color: #fcd34d;">Heading Correction:</span> <b id="out-hC" style="color: #fcd34d;">-</b>
-            </div>
+            <div class="res-line" style="border-left: 3px solid #fcd34d; padding-left: 10px;"><span style="color: #fcd34d;">Heading Correction:</span> <b id="out-hC" style="color: #fcd34d;">-</b></div>
             <div class="res-line"><span>Antenna H-Distance:</span> <b id="out-antDist">-</b></div>
-
-            <div class="offset-title">Antenna 1 - Offsets (Ref Boom Pin Center)</div>
+            <div class="offset-title">Antenna 1 - Offsets</div>
             <div class="res-line"><span>Forward (Y):</span> <b id="out-a1F">-</b></div>
             <div class="res-line"><span>Starboard (X):</span> <b id="out-a1S">-</b></div>
             <div class="res-line"><span>Up (Z):</span> <b id="out-a1U">-</b></div>
-
-            <div class="offset-title">Antenna 2 - Offsets (Ref Boom Pin Center)</div>
+            <div class="offset-title">Antenna 2 - Offsets</div>
             <div class="res-line"><span>Forward (Y):</span> <b id="out-a2F">-</b></div>
             <div class="res-line"><span>Starboard (X):</span> <b id="out-a2S">-</b></div>
             <div class="res-line"><span>Up (Z):</span> <b id="out-a2U">-</b></div>
-
-            <div class="res-line" style="margin-top: 15px; border-top: 2px solid #1e293b; padding-top: 10px;">
-                <span>Boom Length:</span> <b id="out-boomL">-</b>
-            </div>
+            <div class="res-line" style="margin-top: 15px; border-top: 2px solid #1e293b; padding-top: 10px;"><span>Boom Length:</span> <b id="out-boomL">-</b></div>
             <div class="res-line"><span>Stick Length:</span> <b id="out-stickL">-</b></div>
-            
             <button class="export-btn" onclick="exportTxtMeasurements()">Export Results (.txt)</button>
         </div>
     </div>
@@ -210,7 +193,6 @@
     <div id="tab-calibration" class="tab-content">
         <div class="main-container">
             <span class="main-title">Enter Calibration Values</span>
-            
             <div class="input-block"><span class="block-label">Stick Pin</span><div class="input-row"><div class="input-col"><label>X</label><input type="number" id="x_st" step="0.001"></div><div class="input-col"><label>Y</label><input type="number" id="y_st" step="0.001"></div><div class="input-col"><label>Z</label><input type="number" id="z_st" step="0.001"></div></div></div>
             <div class="input-block"><span class="block-label">Bucket Pin</span><div class="input-row"><div class="input-col"><label>X</label><input type="number" id="x_bu" step="0.001"></div><div class="input-col"><label>Y</label><input type="number" id="y_bu" step="0.001"></div><div class="input-col"><label>Z</label><input type="number" id="z_bu" step="0.001"></div></div></div>
             <div class="input-block"><span class="block-label">S3 Pin</span><div class="input-row"><div class="input-col"><label>X</label><input type="number" id="x_s3" step="0.001"></div><div class="input-col"><label>Y</label><input type="number" id="y_s3" step="0.001"></div><div class="input-col"><label>Z</label><input type="number" id="z_s3" step="0.001"></div></div></div>
@@ -222,21 +204,28 @@
         <button class="calc-btn" onclick="calcCalibration()">Calculate Calibration</button>
 
         <div id="resultsCalibration" class="results-area">
-            <div class="res-section-title">CALIBRATION VALUES</div>
-            <div class="res-line"><span>S1 (Stick Length):</span> <b id="out-s1"></b></div>
-            
             <div class="res-section-title">SUPPORT LEVER ATTACHMENT</div>
             <div class="res-line"><span>S2:</span> <b id="out-s2"></b></div>
             <div class="res-line"><span>S3:</span> <b id="out-s3"></b></div>
             <div class="res-line"><span>S4:</span> <b id="out-s4"></b></div>
             <div class="res-line"><span>S5:</span> <b id="out-s5"></b></div>
-            
             <div class="res-section-title">BUCKET & TEETH</div>
             <div class="res-line"><span>T5 (Holes separation):</span> <b id="out-ts"></b></div>
             <div class="res-line"><span>T1:</span> <b id="out-t1"></b></div>
             <div class="res-line"><span>T6 (Tooth angle):</span> <b id="out-t6" style="color:var(--pds-orange)"></b></div>
-            
             <button class="report-btn" onclick="downloadReportCalibration()">Download TXT Report</button>
+        </div>
+    </div>
+
+    <div id="tab-diagram" class="tab-content">
+        <div class="main-container">
+            <span class="main-title">Measurement Diagram</span>
+            <div class="diagram-container">
+                <img src="excavator-diagram.png" alt="Excavator Points Reference" onerror="this.src='https://via.placeholder.com/400x300?text=Excavator+Points+Diagram'">
+            </div>
+            <p style="font-size: 12px; color: #64748b; line-height: 1.6; padding: 0 10px;">
+                Use this diagram to identify the required points (Antennas, Boom, Stick, Bucket, and Teeth pins) for accurate calculation. Ensure all measurements follow the same coordinate system.
+            </p>
         </div>
     </div>
 
@@ -248,9 +237,6 @@
 </div>
 
 <script>
-    // ==============================================
-    // TAB SWITCHING LOGIC
-    // ==============================================
     function openTab(evt, tabName) {
         var i, tabcontent, tablinks;
         tabcontent = document.getElementsByClassName("tab-content");
@@ -267,20 +253,14 @@
         evt.currentTarget.className += " active";
     }
 
-    // ==============================================
-    // MEASUREMENTS LOGIC (TAB 1)
-    // ==============================================
+    // --- MEASUREMENTS SCRIPT ---
     let reportDataMeasurements = "";
-
     function calcMeasurements() {
         const getV = (id) => { const val = document.getElementById(id).value; return val === "" ? null : parseFloat(val); };
         const d = {
-            X1: getV('X1'), Y1: getV('Y1'), Z1: getV('Z1'),
-            X2: getV('X2'), Y2: getV('Y2'), Z2: getV('Z2'),
-            Xs: getV('Xs'), Ys: getV('Ys'), Zs: getV('Zs'),
-            Xp: getV('Xp'), Yp: getV('Yp'), Zp: getV('Zp'),
-            Xst: getV('Xst'), Yst: getV('Yst'), Zst: getV('Zst'),
-            Xbs: getV('Xbs'), Ybs: getV('Ybs'), Zbs: getV('Zbs'),
+            X1: getV('X1'), Y1: getV('Y1'), Z1: getV('Z1'), X2: getV('X2'), Y2: getV('Y2'), Z2: getV('Z2'),
+            Xs: getV('Xs'), Ys: getV('Ys'), Zs: getV('Zs'), Xp: getV('Xp'), Yp: getV('Yp'), Zp: getV('Zp'),
+            Xst: getV('Xst'), Yst: getV('Yst'), Zst: getV('Zst'), Xbs: getV('Xbs'), Ybs: getV('Ybs'), Zbs: getV('Zbs'),
             Xb: getV('Xb'), Yb: getV('Yb'), Zb: getV('Zb')
         };
         const format = (val, unit = "") => (val === null || isNaN(val)) ? "no inputs" : val.toFixed(3) + unit;
@@ -290,25 +270,21 @@
 
         if (d.Xp !== null && d.Xs !== null && d.Yp !== null && d.Ys !== null && d.Zp !== null && d.Zs !== null) {
             const Xc = (d.Xp + d.Xs) / 2, Yc = (d.Yp + d.Ys) / 2, Zc = (d.Zp + d.Zs) / 2;
-
             if (d.Xb !== null && d.Yb !== null) {
                 const hR = Math.atan2(d.Xb - Xc, d.Yb - Yc);
                 mH = ((hR * 180) / Math.PI + 360) % 360;
-
                 const getOffsets = (X, Y, Z) => {
                     if (X === null || Y === null || Z === null) return {F: null, S: null, U: null};
                     return { F: (Y - Yc) * Math.cos(hR) + (X - Xc) * Math.sin(hR), S: (X - Xc) * Math.cos(hR) - (Y - Yc) * Math.sin(hR), U: Z - Zc };
                 };
                 a1 = getOffsets(d.X1, d.Y1, d.Z1);
                 a2 = getOffsets(d.X2, d.Y2, d.Z2);
-
                 if (d.X1 !== null && d.Y1 !== null && d.X2 !== null && d.Y2 !== null) {
                     const aH = ((Math.atan2(d.X2 - d.X1, d.Y2 - d.Y1) * 180) / Math.PI + 360) % 360;
                     hC = mH - aH; if (hC > 180) hC -= 360; if (hC < -180) hC += 360;
                     antDist = Math.sqrt((d.X2 - d.X1)**2 + (d.Y2 - d.Y1)**2);
                 }
             }
-
             if (d.Xst !== null && d.Yst !== null && d.Zst !== null) {
                 boomL = Math.sqrt((Xc - d.Xst)**2 + (Yc - d.Yst)**2 + (Zc - d.Zst)**2);
                 if (d.Xbs !== null && d.Ybs !== null && d.Zbs !== null) {
@@ -316,7 +292,6 @@
                 }
             }
         }
-
         document.getElementById('out-mH').innerText = format(mH, "°");
         document.getElementById('out-hC').innerText = format(hC, "°");
         document.getElementById('out-antDist').innerText = format(antDist, " m");
@@ -328,14 +303,8 @@
         document.getElementById('out-a2U').innerText = format(a2.U, " m");
         document.getElementById('out-boomL').innerText = format(boomL, " m");
         document.getElementById('out-stickL').innerText = format(stickL, " m");
-
         document.getElementById('resultsMeasurements').style.display = "block";
         window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
-
-        const now = new Date();
-        reportDataMeasurements = `EXCAVATOR SURVEY REPORT (MEASUREMENTS)\nDate: ${now.toLocaleString()}\n--------------------------\n` +
-            `Machine Heading: ${format(mH, "°")}\nHeading Correction: ${format(hC, "°")}\nAntenna H-Dist: ${format(antDist, " m")}\n\n` +
-            `Boom Length: ${format(boomL, " m")}\nStick Length: ${format(stickL, " m")}`;
     }
 
     function exportTxtMeasurements() {
@@ -347,9 +316,7 @@
         link.click();
     }
 
-    // ==============================================
-    // CALIBRATION LOGIC (TAB 2)
-    // ==============================================
+    // --- CALIBRATION SCRIPT ---
     function dist3D(p1, p2) { if (!p1 || !p2) return null; return Math.sqrt(Math.pow(p2.x - p1.x, 2) + Math.pow(p2.y - p1.y, 2) + Math.pow(p2.z - p1.z, 2)); }
     function getP(id_p) { const x = document.getElementById('x_'+id_p).value, y = document.getElementById('y_'+id_p).value, z = document.getElementById('z_'+id_p).value; if (x === "" || y === "" || z === "") return null; return { x: parseFloat(x), y: parseFloat(y), z: parseFloat(z) }; }
     function formatRes(val, unit = " m") { if (val === null || isNaN(val)) return '<span style="color:#ef4444;font-weight:normal;font-size:12px">no input</span>'; return val.toFixed(3) + unit; }
@@ -357,7 +324,6 @@
     function calcCalibration() {
         const ST = getP('st'), BU = getP('bu'), S3 = getP('s3'), S4 = getP('s4'), S5 = getP('s5'), T1 = getP('t1');
         const s1 = (ST && BU) ? dist3D(ST, BU) : null;
-        
         let s3_val = null, s2_val = null;
         if (s1 && S3) {
             const v_st_bu = { x: BU.x - ST.x, y: BU.y - ST.y, z: BU.z - ST.z };
@@ -368,7 +334,6 @@
             const v_bu_s3 = { x: S3.x - BU.x, y: S3.y - BU.y, z: S3.z - BU.z };
             s2_val = (v_bu_s3.x * v_bu_st.x + v_bu_s3.y * v_bu_st.y + v_bu_s3.z * v_bu_st.z) / s1; 
         }
-
         let t6_val = null;
         if (T1 && BU && S5) {
             const vT1 = { x: T1.x - BU.x, y: T1.y - BU.y, z: T1.z - BU.z };
@@ -376,8 +341,6 @@
             const m1 = Math.sqrt(vT1.x**2 + vT1.y**2 + vT1.z**2), m2 = Math.sqrt(vS5.x**2 + vS5.y**2 + vS5.z**2);
             if (m1 > 0 && m2 > 0) t6_val = Math.acos(Math.max(-1, Math.min(1, (vT1.x * vS5.x + vT1.y * vS5.y + vT1.z * vS5.z) / (m1 * m2)))) * (180 / Math.PI);
         }
-
-        document.getElementById('out-s1').innerHTML = formatRes(s1);
         document.getElementById('out-s2').innerHTML = formatRes(s2_val);
         document.getElementById('out-s3').innerHTML = formatRes(s3_val);
         document.getElementById('out-s4').innerHTML = formatRes(dist3D(S3, S4));
@@ -385,7 +348,6 @@
         document.getElementById('out-ts').innerHTML = formatRes(dist3D(BU, S5)); 
         document.getElementById('out-t1').innerHTML = formatRes(dist3D(T1, BU)); 
         document.getElementById('out-t6').innerHTML = formatRes(t6_val, "°");
-        
         document.getElementById('resultsCalibration').style.display = "block";
         window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
     }
@@ -393,7 +355,7 @@
     function downloadReportCalibration() {
         const now = new Date();
         let content = `EXCAVATOR CALIBRATION REPORT\nDate: ${now.toLocaleString()}\nCreated by: Mohamed Shehata\n------------------------------------------\n`;
-        ["s1", "s2", "s3", "s4", "s5", "ts", "t1", "t6"].forEach(id => {
+        ["s2", "s3", "s4", "s5", "ts", "t1", "t6"].forEach(id => {
             const el = document.getElementById('out-'+id);
             const label = el.parentElement.querySelector('span').innerText;
             content += label + " " + el.innerText + "\n";
