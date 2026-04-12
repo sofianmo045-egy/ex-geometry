@@ -83,6 +83,7 @@
         .res-line { display: flex; justify-content: space-between; margin: 10px 0; font-size: 14px; border-bottom: 1px solid #1e293b; padding-bottom: 5px; }
         .res-line b { color: #fff; }
         .offset-title { color: #10b981; font-size: 10px; font-weight: bold; text-transform: uppercase; margin: 20px 0 10px 0; padding-bottom: 5px; border-bottom: 1px dashed #334155; }
+        .res-section-title { font-size: 11px; font-weight: bold; margin-top: 15px; border-bottom: 1px solid #334155; padding-bottom: 5px;}
         .ref-tag { font-size: 9px; color: #94a3b8; text-transform: none; margin-left: 5px; font-weight: normal; }
 
         .export-btn { width: 100%; padding: 14px; background: transparent; color: var(--accent-blue); border: 2px solid var(--accent-blue); border-radius: 10px; margin-top: 20px; cursor: pointer; font-weight: 800; }
@@ -168,22 +169,22 @@
 
         <div id="resultsMeasurements" class="results-area">
             <div style="border-bottom: 2px solid var(--accent-blue); padding-bottom: 10px; font-size: 16px; font-weight: bold; color: var(--accent-blue);">MEASUREMENTS RESULTS</div>
-            <div class="res-line"><span>Machine Heading:</span> <b id="out-mH">-</b></div>
-            <div class="res-line"><span>Antenna Heading:</span> <b id="out-antH">-</b></div>
-            <div class="res-line" style="border-left: 3px solid #fcd34d; padding-left: 10px;"><span style="color: #fcd34d;">Heading Correction:</span> <b id="out-hC" style="color: #fcd34d;">-</b></div>
-            <div class="res-line"><span>Antenna H-Distance:</span> <b id="out-antDist">-</b></div>
+            <div class="res-line"><span>Machine Heading:</span> <b id="out-mH">N/A</b></div>
+            <div class="res-line"><span>Antenna Heading:</span> <b id="out-antH">N/A</b></div>
+            <div class="res-line" style="border-left: 3px solid #fcd34d; padding-left: 10px;"><span style="color: #fcd34d;">Heading Correction:</span> <b id="out-hC" style="color: #fcd34d;">N/A</b></div>
+            <div class="res-line"><span>Antenna H-Distance:</span> <b id="out-antDist">N/A</b></div>
             
-            <div class="offset-title">Antenna 1 - Offsets <span class="ref-tag">(Reference point: Boom Pin Center)</span></div>
-            <div class="res-line"><span>Forward (Y):</span> <b id="out-a1F">-</b></div>
-            <div class="res-line"><span>Starboard (X):</span> <b id="out-a1S">-</b></div>
-            <div class="res-line"><span>Up (Z):</span> <b id="out-a1U">-</b></div>
+            <div class="offset-title">Antenna 1 - Offsets <span class="ref-tag">(Reference: Boom Pin Center)</span></div>
+            <div class="res-line"><span>Forward (Y):</span> <b id="out-a1F">N/A</b></div>
+            <div class="res-line"><span>Starboard (X):</span> <b id="out-a1S">N/A</b></div>
+            <div class="res-line"><span>Up (Z):</span> <b id="out-a1U">N/A</b></div>
             
-            <div class="offset-title">Antenna 2 - Offsets <span class="ref-tag">(Reference point: Boom Pin Center)</span></div>
-            <div class="res-line"><span>Forward (Y):</span> <b id="out-a2F">-</b></div>
-            <div class="res-line"><span>Starboard (X):</span> <b id="out-a2S">-</b></div>
-            <div class="res-line"><span>Up (Z):</span> <b id="out-a2U">-</b></div>
+            <div class="offset-title">Antenna 2 - Offsets <span class="ref-tag">(Reference: Boom Pin Center)</span></div>
+            <div class="res-line"><span>Forward (Y):</span> <b id="out-a2F">N/A</b></div>
+            <div class="res-line"><span>Starboard (X):</span> <b id="out-a2S">N/A</b></div>
+            <div class="res-line"><span>Up (Z):</span> <b id="out-a2U">N/A</b></div>
             
-            <button class="export-btn" onclick="exportTxtMeasurements()">Export Results (.txt)</button>
+            <button class="export-btn" onclick="exportReport1()">Download Crane Config Report</button>
         </div>
     </div>
 
@@ -202,19 +203,21 @@
 
         <div id="resultsCalibration" class="results-area">
             <div class="res-section-title" style="color: var(--pds-orange);">GEOMETRY LENGTHS</div>
-            <div class="res-line"><span>Boom Length:</span> <b id="out-boomL_cal">-</b></div>
-            <div class="res-line"><span>Stick Length:</span> <b id="out-stickL_cal">-</b></div>
-            <div class="res-line" style="color:var(--accent-blue)"><span>Boom Stick V (ΔZ):</span> <b id="out-bsv">-</b></div>
+            <div class="res-line"><span>Boom Length:</span> <b id="out-boomL_cal">N/A</b></div>
+            <div class="res-line"><span>Stick Length:</span> <b id="out-stickL_cal">N/A</b></div>
+            <div class="res-line" style="color:var(--accent-blue)"><span>Boom Stick V (ΔZ):</span> <b id="out-bsv">N/A</b></div>
+            
             <div class="res-section-title" style="color: var(--pds-orange);">SUPPORT LEVER ATTACHMENT</div>
-            <div class="res-line"><span>S2:</span> <b id="out-s2">-</b></div>
-            <div class="res-line"><span>S3:</span> <b id="out-s3">-</b></div>
-            <div class="res-line"><span>S4:</span> <b id="out-s4">-</b></div>
-            <div class="res-line"><span>S5:</span> <b id="out-s5">-</b></div>
+            <div class="res-line"><span>S2:</span> <b id="out-s2">N/A</b></div>
+            <div class="res-line"><span>S3:</span> <b id="out-s3">N/A</b></div>
+            <div class="res-line"><span>S4:</span> <b id="out-s4">N/A</b></div>
+            <div class="res-line"><span>S5:</span> <b id="out-s5">N/A</b></div>
+            
             <div class="res-section-title" style="color: var(--pds-orange);">BUCKET & TEETH</div>
-            <div class="res-line"><span>T5 (Holes separation):</span> <b id="out-ts">-</b></div>
-            <div class="res-line"><span>T1:</span> <b id="out-t1">-</b></div>
-            <div class="res-line"><span>T6 (Tooth angle):</span> <b id="out-t6" style="color:var(--pds-orange)">-</b></div>
-            <button class="report-btn" onclick="downloadReportCalibration()">Download TXT Report</button>
+            <div class="res-line"><span>T5 (Holes separation):</span> <b id="out-ts">N/A</b></div>
+            <div class="res-line"><span>T1:</span> <b id="out-t1">N/A</b></div>
+            <div class="res-line"><span>T6 (Tooth angle):</span> <b id="out-t6" style="color:var(--pds-orange)">N/A</b></div>
+            <button class="report-btn" onclick="exportReport2()">Download Bucket Config Report</button>
         </div>
     </div>
 
@@ -248,13 +251,11 @@
 </div>
 
 <script>
-    // --- Global Helpers ---
     const getV = (id) => { const el = document.getElementById(id); return el && el.value !== "" ? parseFloat(el.value) : null; };
-    const format = (val, unit = "") => (val === null || isNaN(val)) ? "---" : val.toFixed(3) + unit;
+    const format = (val, unit = "") => (val === null || isNaN(val)) ? "N/A" : val.toFixed(3) + unit;
     function dist3D(p1, p2) { if (!p1 || !p2) return null; return Math.sqrt(Math.pow(p2.x - p1.x, 2) + Math.pow(p2.y - p1.y, 2) + Math.pow(p2.z - p1.z, 2)); }
     function getP(id_p) { const x = getV('x_'+id_p), y = getV('y_'+id_p), z = getV('z_'+id_p); if (x === null || y === null || z === null) return null; return { x, y, z }; }
 
-    // --- Tab System ---
     function openTab(evt, tabName) {
         var i, tabcontent, tablinks;
         tabcontent = document.getElementsByClassName("tab-content");
@@ -272,7 +273,6 @@
         localStorage.setItem('active_tab', tabName);
     }
 
-    // --- History Logic ---
     function saveHistory(type, results) {
         let history = JSON.parse(localStorage.getItem('history_' + type) || "[]");
         history.unshift({ time: new Date().toLocaleString(), data: results });
@@ -297,14 +297,13 @@
         history.forEach(item => {
             let row = `<div class="history-item"><strong>${item.time}</strong><br>`;
             for (let key in item.data) {
-                if (!key.startsWith('out-a') || key === 'out-antDist') row += `${key.replace('out-','')}: ${item.data[key]} | `;
+                row += `${key.replace('out-','')}: ${item.data[key]} | `;
             }
             content.innerHTML += row + `</div>`;
         });
         document.getElementById('historyModal').style.display = 'block';
     }
 
-    // --- Calculation 1: Measurements (REFACTORED) ---
     function calcMeasurements() {
         const d = {
             X1: getV('X1'), Y1: getV('Y1'), Z1: getV('Z1'), X2: getV('X2'), Y2: getV('Y2'), Z2: getV('Z2'),
@@ -315,14 +314,12 @@
         let mH = null, hC = null, antDist = null, antH = null;
         let a1 = {F: null, S: null, U: null}, a2 = {F: null, S: null, U: null};
 
-        // 1. Calculate Antenna Distance & Antenna Heading (Independent)
         if (d.X1 !== null && d.Y1 !== null && d.X2 !== null && d.Y2 !== null) {
             antDist = Math.sqrt(Math.pow(d.X2 - d.X1, 2) + Math.pow(d.Y2 - d.Y1, 2));
             const aH_rad = Math.atan2(d.X2 - d.X1, d.Y2 - d.Y1);
             antH = ((aH_rad * 180) / Math.PI + 360) % 360;
         }
 
-        // 2. Calculate Machine Heading & Offsets (Dependent on Reference Points)
         if (d.Xp !== null && d.Xs !== null && d.Xb !== null && d.Yb !== null) {
             const Xc = (d.Xp + d.Xs) / 2, Yc = (d.Yp + d.Ys) / 2, Zc = (d.Zp + d.Zs) / 2;
             const hR = Math.atan2(d.Xb - Xc, d.Yb - Yc);
@@ -362,25 +359,19 @@
 
         for (let id in res) {
             const el = document.getElementById(id);
-            if(el) {
-                el.innerText = res[id];
-                localStorage.setItem('res_'+id, res[id]);
-            }
+            if(el) { el.innerText = res[id]; localStorage.setItem('res_'+id, res[id]); }
         }
-
         document.getElementById('resultsMeasurements').style.display = "block";
         localStorage.setItem('show_res1', 'true');
         saveHistory('geometry', res);
     }
 
-    // --- Calculation 2: Calibration ---
     function calcCalibration() {
         const BP = getP('bp'), ST = getP('st'), BU = getP('bu'), S3 = getP('s3'), S4 = getP('s4'), S5 = getP('s5'), T1 = getP('t1');
         const s1 = (ST && BU) ? dist3D(ST, BU) : null;
         let s3_val = null, s2_val = null, t6_val = null, bsv = null;
 
         if (BP && ST) bsv = ST.z - BP.z;
-
         if (s1 && S3) {
             const v_st_bu = { x: BU.x - ST.x, y: BU.y - ST.y, z: BU.z - ST.z };
             const v_st_s3 = { x: S3.x - ST.x, y: S3.y - ST.y, z: S3.z - ST.z };
@@ -390,7 +381,6 @@
             const v_bu_s3 = { x: S3.x - BU.x, y: S3.y - BU.y, z: S3.z - BU.z };
             s2_val = (v_bu_s3.x * v_bu_st.x + v_bu_s3.y * v_bu_st.y + v_bu_s3.z * v_bu_st.z) / s1; 
         }
-
         if (T1 && BU && S5) {
             const vT1 = { x: T1.x - BU.x, y: T1.y - BU.y, z: T1.z - BU.z };
             const vS5 = { x: S5.x - BU.x, y: S5.y - BU.y, z: S5.z - BU.z };
@@ -415,18 +405,14 @@
             document.getElementById(id).innerHTML = res[id];
             localStorage.setItem('res_'+id, res[id]);
         }
-
         document.getElementById('resultsCalibration').style.display = "block";
         localStorage.setItem('show_res2', 'true');
         saveHistory('calibration', res);
     }
 
-    // --- Persistence Logic ---
     function autoSave() {
         const inputs = {};
-        document.querySelectorAll('.saveable').forEach(el => {
-            inputs[el.id] = el.value;
-        });
+        document.querySelectorAll('.saveable').forEach(el => { inputs[el.id] = el.value; });
         localStorage.setItem('excavator_inputs', JSON.stringify(inputs));
     }
 
@@ -456,7 +442,7 @@
     function clearPageOnly() {
         const activeTab = document.querySelector('.tab-content.active');
         activeTab.querySelectorAll('input').forEach(input => input.value = "");
-        activeTab.querySelectorAll('.results-area b').forEach(b => b.innerText = "---");
+        activeTab.querySelectorAll('.results-area b').forEach(b => b.innerText = "N/A");
         autoSave();
     }
 
@@ -467,27 +453,74 @@
         }
     }
 
-    // --- Reports & Exports ---
-    function exportTxtMeasurements() {
-        const out = (id) => document.getElementById(id).innerText;
-        const now = new Date().toLocaleString();
-        let content = `EXCAVATOR SURVEY REPORT\nDate: ${now}\n--------------------------\n`;
-        content += `Machine Heading: ${out('out-mH')}\nAntenna Heading: ${out('out-antH')}\nCorrection: ${out('out-hC')}\nAntenna Dist: ${out('out-antDist')}\n`;
-        const blob = new Blob([content], { type: "text/plain" });
-        const link = document.createElement("a");
-        link.href = URL.createObjectURL(blob); link.download = `Survey_Report.txt`; link.click();
+    // --- HTML Styled Reports ---
+    function generateHTMLReport(title, dataRows) {
+        let rowsHtml = '';
+        dataRows.forEach(row => {
+            rowsHtml += `<tr>
+                <td style="padding:10px; border-bottom:1px solid #eee; color:#666;">${row.label}</td>
+                <td style="padding:10px; border-bottom:1px solid #eee; font-weight:bold; color:#000;">${row.value}</td>
+            </tr>`;
+        });
+
+        return `
+        <html>
+        <head><meta charset="UTF-8"></head>
+        <body style="font-family:sans-serif; padding:20px; background:#f4f4f4;">
+            <div style="max-width:600px; margin:auto; background:#fff; padding:30px; border-radius:10px; box-shadow:0 5px 15px rgba(0,0,0,0.1);">
+                <h2 style="color:#0f172a; border-bottom:3px solid #38bdf8; padding-bottom:10px; margin-top:0;">${title}</h2>
+                <p style="font-size:12px; color:#888;">Report Generated: ${new Date().toLocaleString()}</p>
+                <table style="width:100%; border-collapse:collapse; margin-top:20px;">
+                    ${rowsHtml}
+                </table>
+                <div style="margin-top:30px; font-size:10px; color:#aaa; text-align:center;">
+                    Generated by Excavator Geometry System
+                </div>
+            </div>
+        </body>
+        </html>`;
     }
 
-    function downloadReportCalibration() {
-        const now = new Date().toLocaleString();
-        let content = `EXCAVATOR BUCKET CONFIG REPORT\nDate: ${now}\nCreated by: Mohamed Shehata\n--------------------------\n`;
-        ["boomL_cal", "stickL_cal", "bsv", "s2", "s3", "s4", "s5", "ts", "t1", "t6"].forEach(id => {
-            const el = document.getElementById('out-'+id);
-            if(el) content += id.replace('out-','').toUpperCase() + ": " + el.innerText + "\n";
-        });
-        const blob = new Blob([content], { type: 'text/plain' });
+    function downloadFile(content, fileName) {
+        const blob = new Blob([content], { type: 'text/html' });
         const link = document.createElement('a');
-        link.href = URL.createObjectURL(blob); link.download = 'Bucket_Config_Report.txt'; link.click();
+        link.href = URL.createObjectURL(blob);
+        link.download = fileName;
+        link.click();
+    }
+
+    function exportReport1() {
+        const data = [
+            { label: 'Machine Heading', value: document.getElementById('out-mH').innerText },
+            { label: 'Antenna Heading', value: document.getElementById('out-antH').innerText },
+            { label: 'Heading Correction', value: document.getElementById('out-hC').innerText },
+            { label: 'Antenna H-Distance', value: document.getElementById('out-antDist').innerText },
+            { label: 'A1 Forward (Y)', value: document.getElementById('out-a1F').innerText },
+            { label: 'A1 Starboard (X)', value: document.getElementById('out-a1S').innerText },
+            { label: 'A1 Up (Z)', value: document.getElementById('out-a1U').innerText },
+            { label: 'A2 Forward (Y)', value: document.getElementById('out-a2F').innerText },
+            { label: 'A2 Starboard (X)', value: document.getElementById('out-a2S').innerText },
+            { label: 'A2 Up (Z)', value: document.getElementById('out-a2U').innerText }
+        ];
+        const html = generateHTMLReport('Crane Configuration Report', data);
+        downloadFile(html, 'Crane_Configuration_Report.doc');
+    }
+
+    function exportReport2() {
+        const data = [
+            { label: 'Boom Length', value: document.getElementById('out-boomL_cal').innerText },
+            { label: 'Stick Length', value: document.getElementById('out-stickL_cal').innerText },
+            { label: 'Boom Stick V (ΔZ)', value: document.getElementById('out-bsv').innerText },
+            { label: 'S2 Offset', value: document.getElementById('out-s2').innerText },
+            { label: 'S3 Offset', value: document.getElementById('out-s3').innerText },
+            { label: 'S4 Length', value: document.getElementById('out-s4').innerText },
+            { label: 'S5 Length', value: document.getElementById('out-s5').innerText },
+            { label: 'T5 (Holes)', value: document.getElementById('out-ts').innerText },
+            { label: 'T1 (Length)', value: document.getElementById('out-t1').innerText },
+            { label: 'T6 (Angle)', value: document.getElementById('out-t6').innerText }
+        ];
+        const html = generateHTMLReport('Bucket Configuration Report', data);
+        downloadFile(html, 'Bucket_Config_Report.doc');
     }
 
     document.querySelectorAll('.saveable').forEach(el => el.addEventListener('input', autoSave));
