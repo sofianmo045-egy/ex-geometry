@@ -62,6 +62,16 @@
         .group { padding: 15px 20px; border-bottom: 1px solid #f1f5f9; }
         .group-title { font-size: 11px; font-weight: 800; color: #475569; text-transform: uppercase; margin-bottom: 10px; display: block; }
         
+        /* New CSV Group Style */
+        .csv-import-group {
+            background: #fdf2f2;
+            border: 1px dashed #ef4444;
+            margin: 10px 20px;
+            border-radius: 12px;
+            text-align: center;
+            padding: 15px;
+        }
+
         .input-block { margin-bottom: 20px; }
         .block-label { font-size: 13px; font-weight: 700; color: #334155; margin-bottom: 8px; display: block; }
 
@@ -87,7 +97,7 @@
         .ref-tag { font-size: 9px; color: #94a3b8; text-transform: none; margin-left: 5px; font-weight: normal; }
 
         .export-btn { width: 100%; padding: 14px; background: transparent; color: var(--accent-blue); border: 2px solid var(--accent-blue); border-radius: 10px; margin-top: 20px; cursor: pointer; font-weight: 800; }
-        .report-btn { background: #64748b; color: white; border: none; padding: 14px; border-radius: 10px; cursor: pointer; font-size: 14px; font-weight: bold; width: 100%; margin-top: 20px; }
+        .report-btn { background: #64748b; color: white; border: none; padding: 14px; border-radius: 10px; cursor: pointer; font-size: 14px; font-weight: bold; width: 100%; margin-top: 10px; }
         
         .action-btns-container { display: flex; gap: 8px; margin: 0 20px 20px; }
         .clear-btn { flex: 1.2; background: #fee2e2; color: #ef4444; border: 1px solid #ef4444; padding: 10px; border-radius: 10px; cursor: pointer; font-weight: bold; font-size: 11px; text-transform: uppercase; }
@@ -101,7 +111,7 @@
         .footer { padding: 25px; font-size: 11px; color: #64748b; text-align: center; background: #fafafa; border-top: 1px solid #eee; }
     </style>
 </head>
-<body>
+<body onload="autoLoad()">
 
 <div class="card">
     <div class="header">
@@ -120,48 +130,58 @@
     </div>
 
     <div id="tab-measurements" class="tab-content active">
-        <div class="group" style="background: #f8fbff; margin-top:10px;">
+        
+        <div class="csv-import-group">
+            <span class="group-title" style="color: #ef4444;">Import Survey Data</span>
+            <input type="file" id="csvFileInput" accept=".csv" style="display: none;" onchange="handleCSV(this)">
+            <button onclick="document.getElementById('csvFileInput').click()" class="report-btn" style="background: #ef4444; width: 100%;">
+                📂 Import CSV (X,Y,Z)
+            </button>
+            <p style="font-size: 9px; color: #64748b; margin-top: 5px;">Expected Order: Ant1, Ant2, PinS, PinP, Bucket</p>
+        </div>
+
+        <div class="group" style="background: #f8fbff;">
             <span class="group-title">ANTENNA 1</span>
             <div class="input-row">
-                <div class="input-col"><label>X1</label><input type="number" step="0.001" id="X1" class="saveable" placeholder="-"></div>
-                <div class="input-col"><label>Y1</label><input type="number" step="0.001" id="Y1" class="saveable" placeholder="-"></div>
-                <div class="input-col"><label>Z1</label><input type="number" step="0.001" id="Z1" class="saveable" placeholder="-"></div>
+                <div class="input-col"><label>X1</label><input type="number" step="0.001" id="X1" class="saveable" oninput="autoSave()" placeholder="-"></div>
+                <div class="input-col"><label>Y1</label><input type="number" step="0.001" id="Y1" class="saveable" oninput="autoSave()" placeholder="-"></div>
+                <div class="input-col"><label>Z1</label><input type="number" step="0.001" id="Z1" class="saveable" oninput="autoSave()" placeholder="-"></div>
             </div>
         </div>
 
         <div class="group" style="background: #f8fbff;">
             <span class="group-title">ANTENNA 2</span>
             <div class="input-row">
-                <div class="input-col"><label>X2</label><input type="number" step="0.001" id="X2" class="saveable" placeholder="-"></div>
-                <div class="input-col"><label>Y2</label><input type="number" step="0.001" id="Y2" class="saveable" placeholder="-"></div>
-                <div class="input-col"><label>Z2</label><input type="number" step="0.001" id="Z2" class="saveable" placeholder="-"></div>
+                <div class="input-col"><label>X2</label><input type="number" step="0.001" id="X2" class="saveable" oninput="autoSave()" placeholder="-"></div>
+                <div class="input-col"><label>Y2</label><input type="number" step="0.001" id="Y2" class="saveable" oninput="autoSave()" placeholder="-"></div>
+                <div class="input-col"><label>Z2</label><input type="number" step="0.001" id="Z2" class="saveable" oninput="autoSave()" placeholder="-"></div>
             </div>
         </div>
 
         <div class="group">
             <span class="group-title">BOOM PIN STARBOARD</span>
             <div class="input-row">
-                <div class="input-col"><label>Xs</label><input type="number" step="0.001" id="Xs" class="saveable" placeholder="-"></div>
-                <div class="input-col"><label>Ys</label><input type="number" step="0.001" id="Ys" class="saveable" placeholder="-"></div>
-                <div class="input-col"><label>Zs</label><input type="number" step="0.001" id="Zs" class="saveable" placeholder="-"></div>
+                <div class="input-col"><label>Xs</label><input type="number" step="0.001" id="Xs" class="saveable" oninput="autoSave()" placeholder="-"></div>
+                <div class="input-col"><label>Ys</label><input type="number" step="0.001" id="Ys" class="saveable" oninput="autoSave()" placeholder="-"></div>
+                <div class="input-col"><label>Zs</label><input type="number" step="0.001" id="Zs" class="saveable" oninput="autoSave()" placeholder="-"></div>
             </div>
         </div>
 
         <div class="group">
             <span class="group-title">BOOM PIN PORTSIDE</span>
             <div class="input-row">
-                <div class="input-col"><label>Xp</label><input type="number" step="0.001" id="Xp" class="saveable" placeholder="-"></div>
-                <div class="input-col"><label>Yp</label><input type="number" step="0.001" id="Yp" class="saveable" placeholder="-"></div>
-                <div class="input-col"><label>Zp</label><input type="number" step="0.001" id="Zp" class="saveable" placeholder="-"></div>
+                <div class="input-col"><label>Xp</label><input type="number" step="0.001" id="Xp" class="saveable" oninput="autoSave()" placeholder="-"></div>
+                <div class="input-col"><label>Yp</label><input type="number" step="0.001" id="Yp" class="saveable" oninput="autoSave()" placeholder="-"></div>
+                <div class="input-col"><label>Zp</label><input type="number" step="0.001" id="Zp" class="saveable" oninput="autoSave()" placeholder="-"></div>
             </div>
         </div>
 
         <div class="group" style="background: #f0fff4;">
             <span class="group-title">BUCKET CENTER</span>
             <div class="input-row">
-                <div class="input-col"><label>Xb</label><input type="number" step="0.001" id="Xb" class="saveable" placeholder="-"></div>
-                <div class="input-col"><label>Yb</label><input type="number" step="0.001" id="Yb" class="saveable" placeholder="-"></div>
-                <div class="input-col"><label>Zb</label><input type="number" step="0.001" id="Zb" class="saveable" placeholder="-"></div>
+                <div class="input-col"><label>Xb</label><input type="number" step="0.001" id="Xb" class="saveable" oninput="autoSave()" placeholder="-"></div>
+                <div class="input-col"><label>Yb</label><input type="number" step="0.001" id="Yb" class="saveable" oninput="autoSave()" placeholder="-"></div>
+                <div class="input-col"><label>Zb</label><input type="number" step="0.001" id="Zb" class="saveable" oninput="autoSave()" placeholder="-"></div>
             </div>
         </div>
 
@@ -190,13 +210,13 @@
 
     <div id="tab-calibration" class="tab-content">
         <div class="main-container">
-            <div class="input-block"><span class="block-label" style="color:var(--pds-orange)">Boom Pin</span><div class="input-row"><div class="input-col"><label>X</label><input type="number" id="x_bp" class="saveable" step="0.001"></div><div class="input-col"><label>Y</label><input type="number" id="y_bp" class="saveable" step="0.001"></div><div class="input-col"><label>Z</label><input type="number" id="z_bp" class="saveable" step="0.001"></div></div></div>
-            <div class="input-block"><span class="block-label">Stick Pin</span><div class="input-row"><div class="input-col"><label>X</label><input type="number" id="x_st" class="saveable" step="0.001"></div><div class="input-col"><label>Y</label><input type="number" id="y_st" class="saveable" step="0.001"></div><div class="input-col"><label>Z</label><input type="number" id="z_st" class="saveable" step="0.001"></div></div></div>
-            <div class="input-block"><span class="block-label">Bucket Pin</span><div class="input-row"><div class="input-col"><label>X</label><input type="number" id="x_bu" class="saveable" step="0.001"></div><div class="input-col"><label>Y</label><input type="number" id="y_bu" class="saveable" step="0.001"></div><div class="input-col"><label>Z</label><input type="number" id="z_bu" class="saveable" step="0.001"></div></div></div>
-            <div class="input-block"><span class="block-label">S3 Pin</span><div class="input-row"><div class="input-col"><label>X</label><input type="number" id="x_s3" class="saveable" step="0.001"></div><div class="input-col"><label>Y</label><input type="number" id="y_s3" class="saveable" step="0.001"></div><div class="input-col"><label>Z</label><input type="number" id="z_s3" class="saveable" step="0.001"></div></div></div>
-            <div class="input-block"><span class="block-label">S4 Pin</span><div class="input-row"><div class="input-col"><label>X</label><input type="number" id="x_s4" class="saveable" step="0.001"></div><div class="input-col"><label>Y</label><input type="number" id="y_s4" class="saveable" step="0.001"></div><div class="input-col"><label>Z</label><input type="number" id="z_s4" class="saveable" step="0.001"></div></div></div>
-            <div class="input-block"><span class="block-label">S5 Pin</span><div class="input-row"><div class="input-col"><label>X</label><input type="number" id="x_s5" class="saveable" step="0.001"></div><div class="input-col"><label>Y</label><input type="number" id="y_s5" class="saveable" step="0.001"></div><div class="input-col"><label>Z</label><input type="number" id="z_s5" class="saveable" step="0.001"></div></div></div>
-            <div class="input-block"><span class="block-label">T1 Teeth</span><div class="input-row"><div class="input-col"><label>X</label><input type="number" id="x_t1" class="saveable" step="0.001"></div><div class="input-col"><label>Y</label><input type="number" id="y_t1" class="saveable" step="0.001"></div><div class="input-col"><label>Z</label><input type="number" id="z_t1" class="saveable" step="0.001"></div></div></div>
+            <div class="input-block"><span class="block-label" style="color:var(--pds-orange)">Boom Pin</span><div class="input-row"><div class="input-col"><label>X</label><input type="number" id="x_bp" class="saveable" step="0.001" oninput="autoSave()"></div><div class="input-col"><label>Y</label><input type="number" id="y_bp" class="saveable" step="0.001" oninput="autoSave()"></div><div class="input-col"><label>Z</label><input type="number" id="z_bp" class="saveable" step="0.001" oninput="autoSave()"></div></div></div>
+            <div class="input-block"><span class="block-label">Stick Pin</span><div class="input-row"><div class="input-col"><label>X</label><input type="number" id="x_st" class="saveable" step="0.001" oninput="autoSave()"></div><div class="input-col"><label>Y</label><input type="number" id="y_st" class="saveable" step="0.001" oninput="autoSave()"></div><div class="input-col"><label>Z</label><input type="number" id="z_st" class="saveable" step="0.001" oninput="autoSave()"></div></div></div>
+            <div class="input-block"><span class="block-label">Bucket Pin</span><div class="input-row"><div class="input-col"><label>X</label><input type="number" id="x_bu" class="saveable" step="0.001" oninput="autoSave()"></div><div class="input-col"><label>Y</label><input type="number" id="y_bu" class="saveable" step="0.001" oninput="autoSave()"></div><div class="input-col"><label>Z</label><input type="number" id="z_bu" class="saveable" step="0.001" oninput="autoSave()"></div></div></div>
+            <div class="input-block"><span class="block-label">S3 Pin</span><div class="input-row"><div class="input-col"><label>X</label><input type="number" id="x_s3" class="saveable" step="0.001" oninput="autoSave()"></div><div class="input-col"><label>Y</label><input type="number" id="y_s3" class="saveable" step="0.001" oninput="autoSave()"></div><div class="input-col"><label>Z</label><input type="number" id="z_s3" class="saveable" step="0.001" oninput="autoSave()"></div></div></div>
+            <div class="input-block"><span class="block-label">S4 Pin</span><div class="input-row"><div class="input-col"><label>X</label><input type="number" id="x_s4" class="saveable" step="0.001" oninput="autoSave()"></div><div class="input-col"><label>Y</label><input type="number" id="y_s4" class="saveable" step="0.001" oninput="autoSave()"></div><div class="input-col"><label>Z</label><input type="number" id="z_s4" class="saveable" step="0.001" oninput="autoSave()"></div></div></div>
+            <div class="input-block"><span class="block-label">S5 Pin</span><div class="input-row"><div class="input-col"><label>X</label><input type="number" id="x_s5" class="saveable" step="0.001" oninput="autoSave()"></div><div class="input-col"><label>Y</label><input type="number" id="y_s5" class="saveable" step="0.001" oninput="autoSave()"></div><div class="input-col"><label>Z</label><input type="number" id="z_s5" class="saveable" step="0.001" oninput="autoSave()"></div></div></div>
+            <div class="input-block"><span class="block-label">T1 Teeth</span><div class="input-row"><div class="input-col"><label>X</label><input type="number" id="x_t1" class="saveable" step="0.001" oninput="autoSave()"></div><div class="input-col"><label>Y</label><input type="number" id="y_t1" class="saveable" step="0.001" oninput="autoSave()"></div><div class="input-col"><label>Z</label><input type="number" id="z_t1" class="saveable" step="0.001" oninput="autoSave()"></div></div></div>
         </div>
 
         <button class="calc-btn" onclick="calcCalibration()">Calculate Calibration</button>
@@ -255,6 +275,47 @@
     const format = (val, unit = "") => (val === null || isNaN(val)) ? "N/A" : val.toFixed(3) + unit;
     function dist3D(p1, p2) { if (!p1 || !p2) return null; return Math.sqrt(Math.pow(p2.x - p1.x, 2) + Math.pow(p2.y - p1.y, 2) + Math.pow(p2.z - p1.z, 2)); }
     function getP(id_p) { const x = getV('x_'+id_p), y = getV('y_'+id_p), z = getV('z_'+id_p); if (x === null || y === null || z === null) return null; return { x, y, z }; }
+
+    // --- NEW FUNCTION: HANDLE CSV ---
+    function handleCSV(input) {
+        const file = input.files[0];
+        if (!file) return;
+
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            const text = e.target.result;
+            const rows = text.split('\n').filter(row => row.trim() !== "");
+            
+            const mapping = [
+                ['X1', 'Y1', 'Z1'], // Point 1: Ant 1
+                ['X2', 'Y2', 'Z2'], // Point 2: Ant 2
+                ['Xs', 'Ys', 'Zs'], // Point 3: Starboard Pin
+                ['Xp', 'Yp', 'Zp'], // Point 4: Portside Pin
+                ['Xb', 'Yb', 'Zb']  // Point 5: Bucket Center
+            ];
+
+            let pointsProcessed = 0;
+            rows.forEach((row, index) => {
+                const columns = row.split(','); 
+                if (columns.length >= 4 && pointsProcessed < mapping.length) {
+                    const fields = mapping[pointsProcessed];
+                    // Map: col[1]=X, col[2]=Y, col[3]=Z
+                    document.getElementById(fields[0]).value = parseFloat(columns[1]).toFixed(3);
+                    document.getElementById(fields[1]).value = parseFloat(columns[2]).toFixed(3);
+                    document.getElementById(fields[2]).value = parseFloat(columns[3]).toFixed(3);
+                    pointsProcessed++;
+                }
+            });
+
+            if (pointsProcessed > 0) {
+                alert('Success: Imported ' + pointsProcessed + ' survey points.');
+                autoSave(); 
+            } else {
+                alert('Error: Please check CSV format (Name, Easting, Northing, Elevation)');
+            }
+        };
+        reader.readAsText(file);
+    }
 
     function openTab(evt, tabName) {
         var i, tabcontent, tablinks;
@@ -427,7 +488,10 @@
         const resIds = ['out-mH','out-antH','out-hC','out-antDist','out-a1F','out-a1S','out-a1U','out-a2F','out-a2S','out-a2U','out-boomL_cal','out-stickL_cal','out-bsv','out-s2','out-s3','out-s4','out-s5','out-ts','out-t1','out-t6'];
         resIds.forEach(id => {
             const val = localStorage.getItem('res_'+id);
-            if (val) document.getElementById(id).innerHTML = val;
+            if (val) {
+                const el = document.getElementById(id);
+                if(el) el.innerHTML = val;
+            }
         });
         if (localStorage.getItem('show_res1') === 'true') document.getElementById('resultsMeasurements').style.display = "block";
         if (localStorage.getItem('show_res2') === 'true') document.getElementById('resultsCalibration').style.display = "block";
@@ -531,9 +595,7 @@
         const html = generateHTMLReport('Crane Configuration Report', data);
         downloadFile(html, 'Crane_Configuration_Report.doc');
     }
-
-    document.querySelectorAll('.saveable').forEach(el => el.addEventListener('input', autoSave));
-    window.onload = autoLoad;
 </script>
+
 </body>
 </html>
