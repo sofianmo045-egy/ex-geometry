@@ -5,49 +5,34 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Excavator Calculator</title>
     <style>
-        :root {
-            --primary-bg: #0f172a;
-            --accent-blue: #38bdf8;
-            --success-green: #059669;
-            --text-gray: #94a3b8;
-            --pds-orange: #f59e0b;
-        }
+        body { background-color: #f0f2f5; font-family: Arial, sans-serif; display: flex; justify-content: center; padding: 20px; }
+        .card { max-width: 500px; width: 100%; background: #fff; padding: 20px; border-radius: 15px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
+        .header { text-align: center; margin-bottom: 20px; }
+        .header h1 { margin: 0; font-size: 24px; color: #333; }
+        
+        .group-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 5px; }
+        .point-id { font-size: 11px; font-weight: bold; color: #007bff; background: #e7f3ff; padding: 2px 6px; border-radius: 4px; }
 
-        body { background-color: #f1f5f9; min-height: 100vh; display: flex; justify-content: center; padding: 20px 10px; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 0; }
-        .card { max-width: 550px; width: 100%; background: #fff; border-radius: 20px; box-shadow: 0 15px 35px rgba(0,0,0,0.1); overflow: hidden; border: 1px solid #e2e8f0; }
-        .header { background: var(--primary-bg); color: white; padding: 25px 20px; text-align: center; }
-        .header h1 { margin: 0; font-size: 22px; letter-spacing: -0.5px; }
-        .header p { margin: 8px 0 0; font-size: 13px; color: var(--text-gray); opacity: 0.8; }
-
-        .group-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
-        .point-id { font-size: 10px; font-weight: bold; color: var(--accent-blue); background: #f0f9ff; padding: 2px 8px; border-radius: 4px; border: 1px solid #e0f2fe; }
-
-        .import-container { background: #f8fbff; padding: 15px; border-bottom: 1px solid #e2e8f0; text-align: center; }
-        .import-btn-label { display: inline-block; background: var(--accent-blue); color: #0f172a; padding: 10px 20px; border-radius: 8px; font-weight: bold; cursor: pointer; transition: all 0.2s; }
-        #csvFileInput { display: none; }
-
-        .tabs { display: flex; background: #1e293b; padding: 4px; gap: 4px; }
-        .tab-btn { flex: 1; padding: 12px; color: var(--text-gray); background: none; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; transition: 0.3s; font-size: 13px; }
-        .tab-btn.active { color: #fff; background: var(--primary-bg); box-shadow: 0 4px 12px rgba(0,0,0,0.2); }
-        .tab-content { display: none; padding: 10px; animation: fadeIn 0.3s ease; }
+        .tabs { display: flex; border-bottom: 2px solid #ddd; margin-bottom: 20px; }
+        .tab-btn { flex: 1; padding: 10px; cursor: pointer; border: none; background: none; font-size: 16px; font-weight: bold; color: #555; }
+        .tab-btn.active { color: #007bff; border-bottom: 3px solid #007bff; }
+        .tab-content { display: none; }
         .tab-content.active { display: block; }
 
-        .group { padding: 15px; border-bottom: 1px solid #f1f5f9; margin-bottom: 10px; border-radius: 12px; }
-        .group-title { font-size: 11px; font-weight: 800; color: #475569; text-transform: uppercase; letter-spacing: 0.5px; }
-        .input-row { display: flex; gap: 10px; margin-top: 10px; }
+        .group { margin-bottom: 15px; padding: 10px; border: 1px solid #eee; border-radius: 10px; }
+        .group-title { font-size: 14px; font-weight: bold; color: #555; margin-bottom: 10px; display: block; }
+        .input-row { display: flex; gap: 10px; }
         .input-col { flex: 1; }
-        .input-col label { font-size: 10px; color: #64748b; font-weight: 600; display: block; margin-bottom: 5px; text-indent: 4px; }
-        .input-col input { width: 100%; padding: 10px; border: 1.5px solid #e2e8f0; border-radius: 8px; font-size: 14px; text-align: center; transition: all 0.2s; box-sizing: border-box; }
-        .input-col input:focus { border-color: var(--accent-blue); background: #fff; outline: none; box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.1); }
+        .input-col label { font-size: 12px; color: #777; display: block; }
+        .input-col input { width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 5px; text-align: center; box-sizing: border-box; }
 
-        .calc-btn { width: calc(100% - 30px); margin: 15px; padding: 16px; background: var(--success-green); color: white; border: none; border-radius: 12px; font-weight: 800; cursor: pointer; font-size: 15px; transition: transform 0.1s; }
-        .calc-btn:active { transform: scale(0.98); }
+        .import-container { margin-bottom: 15px; text-align: center; }
+        .import-btn { background: #007bff; color: #fff; padding: 10px; border-radius: 5px; cursor: pointer; display: inline-block; font-weight: bold; }
+        #csvFileInput { display: none; }
 
-        .results-area { background: var(--primary-bg); color: #f8fafc; padding: 20px; border-radius: 15px; margin: 15px; display: none; border: 1px solid #334155; }
-        .res-line { display: flex; justify-content: space-between; margin: 10px 0; font-size: 14px; border-bottom: 1px solid #1e293b; padding-bottom: 8px; }
-        .res-val { font-family: 'Courier New', monospace; color: var(--accent-blue); font-weight: bold; }
-
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
+        .calc-btn { width: 100%; padding: 15px; background: #28a745; color: #fff; border: none; border-radius: 10px; font-size: 18px; font-weight: bold; cursor: pointer; margin-top: 10px; }
+        .results { margin-top: 20px; padding: 15px; background: #f8f9fa; border-radius: 10px; display: none; }
+        .res-line { display: flex; justify-content: space-between; margin-bottom: 5px; font-size: 14px; border-bottom: 1px solid #eee; padding-bottom: 5px; }
     </style>
 </head>
 <body>
@@ -55,197 +40,138 @@
 <div class="card">
     <div class="header">
         <h1>Excavator Calculator</h1>
-        <p>Advanced Engineering Tool</p>
+        <p style="font-size: 12px; color: #777;">Developed by Mohamed Shehata</p>
     </div>
 
     <div class="import-container">
-        <label for="csvFileInput" class="import-btn-label">📥 Import CSV (Point Name,X,Y,Z)</label>
-        <input type="file" id="csvFileInput" accept=".csv, .txt">
+        <label for="csvFileInput" class="import-btn">📥 Import CSV</label>
+        <input type="file" id="csvFileInput" accept=".csv">
     </div>
 
     <div class="tabs">
-        <button class="tab-btn active" onclick="openTab(event, 'tab-measurements')">GEOMETRY</button>
-        <button class="tab-btn" onclick="openTab(event, 'tab-calibration')">CRANE CONFIG</button>
+        <button class="tab-btn active" onclick="openTab(event, 'tab1')">Geometry</button>
+        <button class="tab-btn" onclick="openTab(event, 'tab2')">Calibration</button>
     </div>
 
-    <div id="tab-measurements" class="tab-content active">
-        <div class="group" style="background: #f8fbff;">
+    <div id="tab1" class="tab-content active">
+        <div class="group">
             <div class="group-header"><span class="group-title">Antenna 1 (Master)</span><span class="point-id">ID: X1</span></div>
             <div class="input-row">
-                <div class="input-col"><label>X1</label><input type="number" step="0.001" id="X1"></div>
-                <div class="input-col"><label>Y1</label><input type="number" step="0.001" id="Y1"></div>
-                <div class="input-col"><label>Z1</label><input type="number" step="0.001" id="Z1"></div>
+                <div class="input-col"><label>X</label><input type="number" step="0.001" id="X1"></div>
+                <div class="input-col"><label>Y</label><input type="number" step="0.001" id="Y1"></div>
+                <div class="input-col"><label>Z</label><input type="number" step="0.001" id="Z1"></div>
             </div>
         </div>
-
-        <div class="group" style="background: #f8fbff;">
+        <div class="group">
             <div class="group-header"><span class="group-title">Antenna 2 (Slave)</span><span class="point-id">ID: X2</span></div>
             <div class="input-row">
-                <div class="input-col"><label>X2</label><input type="number" step="0.001" id="X2"></div>
-                <div class="input-col"><label>Y2</label><input type="number" step="0.001" id="Y2"></div>
-                <div class="input-col"><label>Z2</label><input type="number" step="0.001" id="Z2"></div>
+                <div class="input-col"><label>X</label><input type="number" step="0.001" id="X2"></div>
+                <div class="input-col"><label>Y</label><input type="number" step="0.001" id="Y2"></div>
+                <div class="input-col"><label>Z</label><input type="number" step="0.001" id="Z2"></div>
             </div>
         </div>
-
         <div class="group">
             <div class="group-header"><span class="group-title">Boom Pin Starboard</span><span class="point-id">ID: XS</span></div>
             <div class="input-row">
-                <div class="input-col"><label>Xs</label><input type="number" step="0.001" id="Xs"></div>
-                <div class="input-col"><label>Ys</label><input type="number" step="0.001" id="Ys"></div>
-                <div class="input-col"><label>Zs</label><input type="number" step="0.001" id="Zs"></div>
+                <div class="input-col"><label>X</label><input type="number" step="0.001" id="Xs"></div>
+                <div class="input-col"><label>Y</label><input type="number" step="0.001" id="Ys"></div>
+                <div class="input-col"><label>Z</label><input type="number" step="0.001" id="Zs"></div>
             </div>
         </div>
-
         <div class="group">
             <div class="group-header"><span class="group-title">Boom Pin Portside</span><span class="point-id">ID: XP</span></div>
             <div class="input-row">
-                <div class="input-col"><label>Xp</label><input type="number" step="0.001" id="Xp"></div>
-                <div class="input-col"><label>Yp</label><input type="number" step="0.001" id="Yp"></div>
-                <div class="input-col"><label>Zp</label><input type="number" step="0.001" id="Zp"></div>
+                <div class="input-col"><label>X</label><input type="number" step="0.001" id="Xp"></div>
+                <div class="input-col"><label>Y</label><input type="number" step="0.001" id="Yp"></div>
+                <div class="input-col"><label>Z</label><input type="number" step="0.001" id="Zp"></div>
             </div>
         </div>
-
-        <div class="group" style="background: #fffbeb;">
+        <div class="group">
             <div class="group-header"><span class="group-title">Bucket Center</span><span class="point-id">ID: BU</span></div>
             <div class="input-row">
-                <div class="input-col"><label>Xb</label><input type="number" step="0.001" id="Xb"></div>
-                <div class="input-col"><label>Yb</label><input type="number" step="0.001" id="Yb"></div>
-                <div class="input-col"><label>Zb</label><input type="number" step="0.001" id="Zb"></div>
+                <div class="input-col"><label>X</label><input type="number" step="0.001" id="Xb"></div>
+                <div class="input-col"><label>Y</label><input type="number" step="0.001" id="Yb"></div>
+                <div class="input-col"><label>Z</label><input type="number" step="0.001" id="Zb"></div>
             </div>
         </div>
-
-        <button class="calc-btn" onclick="calculateMeasurements()">CALCULATE GEOMETRY</button>
-        <div id="resultsMeasurements" class="results-area"></div>
+        <button class="calc-btn" onclick="calculateGeometry()">Calculate Geometry</button>
+        <div id="res1" class="results"></div>
     </div>
 
-    <div id="tab-calibration" class="tab-content">
+    <div id="tab2" class="tab-content">
         <div class="group">
             <div class="group-header"><span class="group-title">Main Boom Pin</span><span class="point-id">ID: BP</span></div>
             <div class="input-row">
-                <div class="input-col"><label>X</label><input type="number" id="x_bp"></div>
-                <div class="input-col"><label>Y</label><input type="number" id="y_bp"></div>
-                <div class="input-col"><label>Z</label><input type="number" id="z_bp"></div>
+                <div class="input-col"><label>X</label><input type="number" step="0.001" id="x_bp"></div>
+                <div class="input-col"><label>Y</label><input type="number" step="0.001" id="y_bp"></div>
+                <div class="input-col"><label>Z</label><input type="number" step="0.001" id="z_bp"></div>
             </div>
         </div>
-
         <div class="group">
             <div class="group-header"><span class="group-title">Stick Pin</span><span class="point-id">ID: ST</span></div>
             <div class="input-row">
-                <div class="input-col"><label>X</label><input type="number" id="x_st"></div>
-                <div class="input-col"><label>Y</label><input type="number" id="y_st"></div>
-                <div class="input-col"><label>Z</label><input type="number" id="z_st"></div>
+                <div class="input-col"><label>X</label><input type="number" step="0.001" id="x_st"></div>
+                <div class="input-col"><label>Y</label><input type="number" step="0.001" id="y_st"></div>
+                <div class="input-col"><label>Z</label><input type="number" step="0.001" id="z_st"></div>
             </div>
         </div>
-
-        <div class="group" style="background: #fff7ed;">
+        <div class="group">
             <div class="group-header"><span class="group-title">Bucket Pin (T5)</span><span class="point-id">ID: PKT</span></div>
             <div class="input-row">
-                <div class="input-col"><label>X</label><input type="number" id="x_bu"></div>
-                <div class="input-col"><label>Y</label><input type="number" id="y_bu"></div>
-                <div class="input-col"><label>Z</label><input type="number" id="z_bu"></div>
+                <div class="input-col"><label>X</label><input type="number" step="0.001" id="x_bu"></div>
+                <div class="input-col"><label>Y</label><input type="number" step="0.001" id="y_bu"></div>
+                <div class="input-col"><label>Z</label><input type="number" step="0.001" id="z_bu"></div>
             </div>
         </div>
-
-        <div class="group">
-            <div class="group-header"><span class="group-title">S3 Pin</span><span class="point-id">ID: S3</span></div>
-            <div class="input-row">
-                <div class="input-col"><label>X</label><input type="number" id="x_s3"></div>
-                <div class="input-col"><label>Y</label><input type="number" id="y_s3"></div>
-                <div class="input-col"><label>Z</label><input type="number" id="z_s3"></div>
-            </div>
-        </div>
-
-        <div class="group">
-            <div class="group-header"><span class="group-title">S4 Pin</span><span class="point-id">ID: S4</span></div>
-            <div class="input-row">
-                <div class="input-col"><label>X</label><input type="number" id="x_s4"></div>
-                <div class="input-col"><label>Y</label><input type="number" id="y_s4"></div>
-                <div class="input-col"><label>Z</label><input type="number" id="z_s4"></div>
-            </div>
-        </div>
-
-        <div class="group">
-            <div class="group-header"><span class="group-title">S5 Pin</span><span class="point-id">ID: S5</span></div>
-            <div class="input-row">
-                <div class="input-col"><label>X</label><input type="number" id="x_s5"></div>
-                <div class="input-col"><label>Y</label><input type="number" id="y_s5"></div>
-                <div class="input-col"><label>Z</label><input type="number" id="z_s5"></div>
-            </div>
-        </div>
-
-        <div class="group">
-            <div class="group-header"><span class="group-title">T1 Teeth</span><span class="point-id">ID: T1</span></div>
-            <div class="input-row">
-                <div class="input-col"><label>X</label><input type="number" id="x_t1"></div>
-                <div class="input-col"><label>Y</label><input type="number" id="y_t1"></div>
-                <div class="input-col"><label>Z</label><input type="number" id="z_t1"></div>
-            </div>
-        </div>
-
-        <button class="calc-btn" onclick="calculateCalibration()">CALCULATE CALIBRATION</button>
-        <div id="resultsCalibration" class="results-area"></div>
+        <button class="calc-btn" onclick="calculateCalibration()">Calculate Calibration</button>
+        <div id="res2" class="results"></div>
     </div>
 </div>
 
 <script>
-    // --- CSV Import Engine ---
+    function openTab(evt, tabId) {
+        let i, tabcontent, tablinks;
+        tabcontent = document.getElementsByClassName("tab-content");
+        for (i = 0; i < tabcontent.length; i++) tabcontent[i].classList.remove("active");
+        tablinks = document.getElementsByClassName("tab-btn");
+        for (i = 0; i < tablinks.length; i++) tablinks[i].classList.remove("active");
+        document.getElementById(tabId).classList.add("active");
+        evt.currentTarget.classList.add("active");
+    }
+
     document.getElementById('csvFileInput').addEventListener('change', function(e) {
         const file = e.target.files[0];
         if (!file) return;
-
         const reader = new FileReader();
         reader.onload = function(event) {
-            const text = event.target.result;
-            const lines = text.split(/\r?\n/);
-            
-            const fieldMapping = {
+            const lines = event.target.result.split(/\r?\n/);
+            const mapping = {
                 'X1': ['X1', 'Y1', 'Z1'],
                 'X2': ['X2', 'Y2', 'Z2'],
                 'XS': ['Xs', 'Ys', 'Zs'],
                 'XP': ['Xp', 'Yp', 'Zp'],
-                'BU': ['Xb', 'Yb', 'Zb'],      // BU لسنتر الباكت
+                'BU': ['Xb', 'Yb', 'Zb'],
                 'BP': ['x_bp', 'y_bp', 'z_bp'],
                 'ST': ['x_st', 'y_st', 'z_st'],
-                'PKT': ['x_bu', 'y_bu', 'z_bu'], // PKT لمسمار الباكت
-                'S3': ['x_s3', 'y_s3', 'z_s3'],
-                'S4': ['x_s4', 'y_s4', 'z_s4'],
-                'S5': ['x_s5', 'y_s5', 'z_s5'],
-                'T1': ['x_t1', 'y_t1', 'z_t1']
+                'PKT': ['x_bu', 'y_bu', 'z_bu']
             };
-
             lines.forEach(line => {
                 const parts = line.split(',');
                 if (parts.length >= 4) {
-                    const pointName = parts[0].trim().toUpperCase();
-                    if (fieldMapping[pointName]) {
-                        document.getElementById(fieldMapping[pointName][0]).value = parts[1].trim();
-                        document.getElementById(fieldMapping[pointName][1]).value = parts[2].trim();
-                        document.getElementById(fieldMapping[pointName][2]).value = parts[3].trim();
+                    const name = parts[0].trim().toUpperCase();
+                    if (mapping[name]) {
+                        document.getElementById(mapping[name][0]).value = parts[1].trim();
+                        document.getElementById(mapping[name][1]).value = parts[2].trim();
+                        document.getElementById(mapping[name][2]).value = parts[3].trim();
                     }
                 }
             });
-            alert('Survey data imported successfully!');
+            alert('Imported Successfully');
         };
         reader.readAsText(file);
     });
 
-    function openTab(evt, tabName) {
-        var i, tabcontent, tablinks;
-        tabcontent = document.getElementsByClassName("tab-content");
-        for (i = 0; i < tabcontent.length; i++) tabcontent[i].style.display = "none";
-        tablinks = document.getElementsByClassName("tab-btn");
-        for (i = 0; i < tablinks.length; i++) tablinks[i].className = tablinks[i].className.replace(" active", "");
-        document.getElementById(tabName).style.display = "block";
-        evt.currentTarget.className += " active";
-    }
-
-    function calculateMeasurements() {
-        const getP = (id) => ({
-            x: parseFloat(document.getElementById(id + '1' === id ? 'X1' : id + '2' === id ? 'X2' : id).value),
-            y: parseFloat(document.getElementById(id + '1' === id ? 'Y1' : id + '2' === id ? 'Y2' : id).value),
-            z: parseFloat(document.getElementById(id + '1' === id ? 'Z1' : id + '2' === id ? 'Z2' : id).value)
-        });
-
+    function calculateGeometry() {
         const p1 = {x: parseFloat(document.getElementById('X1').value), y: parseFloat(document.getElementById('Y1').value), z: parseFloat(document.getElementById('Z1').value)};
         const p2 = {x: parseFloat(document.getElementById('X2').value), y: parseFloat(document.getElementById('Y2').value), z: parseFloat(document.getElementById('Z2').value)};
         const ps = {x: parseFloat(document.getElementById('Xs').value), y: parseFloat(document.getElementById('Ys').value), z: parseFloat(document.getElementById('Zs').value)};
@@ -254,70 +180,43 @@
 
         const antDistH = Math.sqrt(Math.pow(p2.x - p1.x, 2) + Math.pow(p2.y - p1.y, 2));
         const antHeading = (Math.atan2(p2.x - p1.x, p2.y - p1.y) * 180 / Math.PI + 360) % 360;
-
         const pc = { x: (ps.x + pp.x) / 2, y: (ps.y + pp.y) / 2, z: (ps.z + pp.z) / 2 };
         const machHeading = (Math.atan2(pb.x - pc.x, pb.y - pc.y) * 180 / Math.PI + 360) % 360;
         const headingCorr = machHeading - antHeading;
 
         const rad = -machHeading * Math.PI / 180;
-        const calcOffset = (pt) => ({
-            forward: (pt.y - pc.y) * Math.cos(rad) - (pt.x - pc.x) * Math.sin(rad),
-            starboard: (pt.x - pc.x) * Math.cos(rad) + (pt.y - pc.y) * Math.sin(rad),
-            up: pt.z - pc.z
-        });
+        const off1 = {
+            f: (p1.y - pc.y) * Math.cos(rad) - (p1.x - pc.x) * Math.sin(rad),
+            s: (p1.x - pc.x) * Math.cos(rad) + (p1.y - pc.y) * Math.sin(rad),
+            u: p1.z - pc.z
+        };
 
-        const off1 = calcOffset(p1);
-        const off2 = calcOffset(p2);
-
-        const resDiv = document.getElementById('resultsMeasurements');
-        resDiv.style.display = 'block';
-        resDiv.innerHTML = `
-            <div class="res-line"><span>Antenna H-Dist:</span><span class="res-val">${antDistH.toFixed(3)} m</span></div>
-            <div class="res-line"><span>Antenna Heading:</span><span class="res-val">${antHeading.toFixed(2)}°</span></div>
-            <div class="res-line"><span>Machine Heading:</span><span class="res-val">${machHeading.toFixed(2)}°</span></div>
-            <div class="res-line" style="color:var(--pds-orange)"><span>Heading Correction:</span><span class="res-val">${headingCorr.toFixed(2)}°</span></div>
-            <div style="margin-top:15px; font-weight:bold; color:var(--accent-blue)">Antenna 1 Offsets (PDS):</div>
-            <div class="res-line"><span>Forward (Y):</span><span class="res-val">${off1.forward.toFixed(3)} m</span></div>
-            <div class="res-line"><span>Starboard (X):</span><span class="res-val">${off1.starboard.toFixed(3)} m</span></div>
-            <div class="res-line"><span>Up (Z):</span><span class="res-val">${off1.up.toFixed(3)} m</span></div>
+        const res = document.getElementById('res1');
+        res.style.display = 'block';
+        res.innerHTML = `
+            <div class="res-line"><span>Antenna H-Dist:</span><b>${antDistH.toFixed(3)}</b></div>
+            <div class="res-line"><span>Machine Heading:</span><b>${machHeading.toFixed(2)}°</b></div>
+            <div class="res-line"><span>Heading Corr:</span><b>${headingCorr.toFixed(2)}°</b></div>
+            <div class="res-line"><span>Forward (Y):</span><b>${off1.f.toFixed(3)}</b></div>
+            <div class="res-line"><span>Starboard (X):</span><b>${off1.s.toFixed(3)}</b></div>
+            <div class="res-line"><span>Up (Z):</span><b>${off1.u.toFixed(3)}</b></div>
         `;
     }
 
     function calculateCalibration() {
-        const getP = (prefix) => ({
-            x: parseFloat(document.getElementById('x_' + prefix).value),
-            y: parseFloat(document.getElementById('y_' + prefix).value),
-            z: parseFloat(document.getElementById('z_' + prefix).value)
+        const getP = (id) => ({
+            x: parseFloat(document.getElementById('x_'+id).value),
+            y: parseFloat(document.getElementById('y_'+id).value),
+            z: parseFloat(document.getElementById('z_'+id).value)
         });
-
-        const bp = getP('bp'), st = getP('st'), bu = getP('bu'), s3 = getP('s3'), s4 = getP('s4'), s5 = getP('s5'), t1 = getP('t1');
-
-        const dist3D = (a, b) => Math.sqrt(Math.pow(a.x-b.x, 2) + Math.pow(a.y-b.y, 2) + Math.pow(a.z-b.z, 2));
+        const bp = getP('bp'), st = getP('st'), bu = getP('bu');
+        const dist3D = (a, b) => Math.sqrt(Math.pow(a.x-b.x,2)+Math.pow(a.y-b.y,2)+Math.pow(a.z-b.z,2));
         
-        const boomL = dist3D(bp, st);
-        const stickL = dist3D(st, bu);
-
-        const vStick = {x: bu.x-st.x, y: bu.y-st.y, z: bu.z-st.z};
-        const vS3 = {x: s3.x-st.x, y: s3.y-st.y, z: s3.z-st.z};
-        
-        const dot = vS3.x*vStick.x + vS3.y*vStick.y + vS3.z*vStick.z;
-        const s2 = dot / stickL;
-        const s3_val = Math.sqrt(Math.pow(dist3D(st, s3), 2) - Math.pow(s2, 2));
-
-        const t1_dist = dist3D(bu, t1);
-        const vS5 = {x: s5.x-bu.x, y: s5.y-bu.y, z: s5.z-bu.z};
-        const vT1 = {x: t1.x-bu.x, y: t1.y-bu.y, z: t1.z-bu.z};
-        const t6 = Math.acos((vS5.x*vT1.x + vS5.y*vT1.y + vS5.z*vT1.z) / (dist3D(bu, s5) * t1_dist)) * 180 / Math.PI;
-
-        const resDiv = document.getElementById('resultsCalibration');
-        resDiv.style.display = 'block';
-        resDiv.innerHTML = `
-            <div class="res-line"><span>Boom Length:</span><span class="res-val">${boomL.toFixed(3)} m</span></div>
-            <div class="res-line"><span>Stick Length:</span><span class="res-val">${stickL.toFixed(3)} m</span></div>
-            <div class="res-line"><span>S2 (Along Stick):</span><span class="res-val">${s2.toFixed(3)} m</span></div>
-            <div class="res-line"><span>S3 (Offset):</span><span class="res-val">${s3_val.toFixed(3)} m</span></div>
-            <div class="res-line"><span>T1 (Bucket Radius):</span><span class="res-val">${t1_dist.toFixed(3)} m</span></div>
-            <div class="res-line" style="color:var(--pds-orange)"><span>T6 (Tooth Angle):</span><span class="res-val">${t6.toFixed(2)}°</span></div>
+        const res = document.getElementById('res2');
+        res.style.display = 'block';
+        res.innerHTML = `
+            <div class="res-line"><span>Boom Length:</span><b>${dist3D(bp, st).toFixed(3)}</b></div>
+            <div class="res-line"><span>Stick Length:</span><b>${dist3D(st, bu).toFixed(3)}</b></div>
         `;
     }
 </script>
