@@ -100,7 +100,6 @@
 
         .footer { padding: 25px; font-size: 11px; color: #64748b; text-align: center; background: #fafafa; border-top: 1px solid #eee; }
         
-        /* New Style for Point Tags */
         .id-badge { background: #e2e8f0; color: #1e293b; padding: 2px 5px; border-radius: 4px; font-size: 9px; margin-right: 5px; vertical-align: middle; }
     </style>
 </head>
@@ -158,7 +157,7 @@
         </div>
 
         <div class="group">
-            <span class="group-title"><span class="id-badge">BP</span> BOOM PIN PORTSIDE</span>
+            <span class="group-title"><span class="id-badge">BT</span> BOOM PIN PORTSIDE</span>
             <div class="input-row">
                 <div class="input-col"><label>Xp</label><input type="number" step="0.001" id="Xp" class="saveable" oninput="autoSave()"></div>
                 <div class="input-col"><label>Yp</label><input type="number" step="0.001" id="Yp" class="saveable" oninput="autoSave()"></div>
@@ -202,7 +201,7 @@
         <div class="main-container">
             <div class="input-block"><span class="block-label" style="color:var(--pds-orange)"><span class="id-badge">BP/BS</span> Boom Pin (Auto-sync)</span><div class="input-row"><div class="input-col"><label>X</label><input type="number" id="x_bp" class="saveable" step="0.001"></div><div class="input-col"><label>Y</label><input type="number" id="y_bp" class="saveable" step="0.001"></div><div class="input-col"><label>Z</label><input type="number" id="z_bp" class="saveable" step="0.001"></div></div></div>
             <div class="input-block"><span class="block-label"><span class="id-badge">ST</span> Stick Pin</span><div class="input-row"><div class="input-col"><label>X</label><input type="number" id="x_st" class="saveable" step="0.001" oninput="autoSave()"></div><div class="input-col"><label>Y</label><input type="number" id="y_st" class="saveable" step="0.001" oninput="autoSave()"></div><div class="input-col"><label>Z</label><input type="number" id="z_st" class="saveable" step="0.001" oninput="autoSave()"></div></div></div>
-            <div class="input-block"><span class="block-label"><span class="id-badge">PKT</span> Bucket Pin</span><div class="input-row"><div class="input-col"><label>X</label><input type="number" id="x_bu" class="saveable" step="0.001" oninput="autoSave()"></div><div class="input-col"><label>Y</label><input type="number" id="y_bu" class="saveable" step="0.001" oninput="autoSave()"></div><div class="input-col"><label>Z</label><input type="number" id="z_bu" class="saveable" step="0.001" oninput="autoSave()"></div></div></div>
+            <div class="input-block"><span class="block-label"><span class="id-badge">BP</span> Bucket Pin</span><div class="input-row"><div class="input-col"><label>X</label><input type="number" id="x_bu" class="saveable" step="0.001" oninput="autoSave()"></div><div class="input-col"><label>Y</label><input type="number" id="y_bu" class="saveable" step="0.001" oninput="autoSave()"></div><div class="input-col"><label>Z</label><input type="number" id="z_bu" class="saveable" step="0.001" oninput="autoSave()"></div></div></div>
             <div class="input-block"><span class="block-label"><span class="id-badge">S3</span> S3 Pin</span><div class="input-row"><div class="input-col"><label>X</label><input type="number" id="x_s3" class="saveable" step="0.001" oninput="autoSave()"></div><div class="input-col"><label>Y</label><input type="number" id="y_s3" class="saveable" step="0.001" oninput="autoSave()"></div><div class="input-col"><label>Z</label><input type="number" id="z_s3" class="saveable" step="0.001" oninput="autoSave()"></div></div></div>
             <div class="input-block"><span class="block-label"><span class="id-badge">S4</span> S4 Pin</span><div class="input-row"><div class="input-col"><label>X</label><input type="number" id="x_s4" class="saveable" step="0.001" oninput="autoSave()"></div><div class="input-col"><label>Y</label><input type="number" id="y_s4" class="saveable" step="0.001" oninput="autoSave()"></div><div class="input-col"><label>Z</label><input type="number" id="z_s4" class="saveable" step="0.001" oninput="autoSave()"></div></div></div>
             <div class="input-block"><span class="block-label"><span class="id-badge">S5</span> S5 Pin</span><div class="input-row"><div class="input-col"><label>X</label><input type="number" id="x_s5" class="saveable" step="0.001" oninput="autoSave()"></div><div class="input-col"><label>Y</label><input type="number" id="y_s5" class="saveable" step="0.001" oninput="autoSave()"></div><div class="input-col"><label>Z</label><input type="number" id="z_s5" class="saveable" step="0.001" oninput="autoSave()"></div></div></div>
@@ -266,7 +265,6 @@
     function dist3D(p1, p2) { if (!p1 || !p2) return null; return Math.sqrt(Math.pow(p2.x - p1.x, 2) + Math.pow(p2.y - p1.y, 2) + Math.pow(p2.z - p1.z, 2)); }
     function getP(id_p) { const x = getV('x_'+id_p), y = getV('y_'+id_p), z = getV('z_'+id_p); if (x === null || y === null || z === null) return null; return { x, y, z }; }
 
-    // --- NEW: CSV HANDLER WITH ID MAPPING ---
     function handleCSV(input) {
         const file = input.files[0];
         if (!file) return;
@@ -280,10 +278,10 @@
                 'A1': ['X1', 'Y1', 'Z1'],
                 'A2': ['X2', 'Y2', 'Z2'],
                 'BS': ['Xs', 'Ys', 'Zs'],
-                'BP': ['Xp', 'Yp', 'Zp'],
+                'BT': ['Xp', 'Yp', 'Zp'], // Changed BP to BT for Boom Portside
                 'BU': ['Xb', 'Yb', 'Zb'],
                 'ST': ['x_st', 'y_st', 'z_st'],
-                'PKT': ['x_bu', 'y_bu', 'z_bu'],
+                'BP': ['x_bu', 'y_bu', 'z_bu'], // Changed PKT to BP for Bucket Pin
                 'S3': ['x_s3', 'y_s3', 'z_s3'],
                 'S4': ['x_s4', 'y_s4', 'z_s4'],
                 'S5': ['x_s5', 'y_s5', 'z_s5'],
@@ -303,7 +301,6 @@
                 }
             });
 
-            // Special case: Sync Boom Pin Center in Calibration Tab if BS or BP updated
             const xs = getV('Xs'), ys = getV('Ys'), zs = getV('Zs'), xp = getV('Xp'), yp = getV('Yp'), zp = getV('Zp');
             if (xs !== null && xp !== null) {
                 document.getElementById('x_bp').value = ((xs+xp)/2).toFixed(3);
@@ -514,69 +511,6 @@
         }
     }
 
-    function generateHTMLReport(title, dataRows) {
-        let rowsHtml = '';
-        dataRows.forEach(row => {
-            if(row.isHeader) {
-                rowsHtml += `<tr><td colspan="2" style="padding:15px 10px 5px 10px; font-weight:bold; color:#10b981; font-size:11px; border-bottom:1px dashed #ddd; text-transform:uppercase;">${row.label}</td></tr>`;
-            } else {
-                rowsHtml += `<tr>
-                    <td style="padding:10px; border-bottom:1px solid #eee; color:#666; font-size:14px;">${row.label}</td>
-                    <td style="padding:10px; border-bottom:1px solid #eee; font-weight:bold; color:#000; font-size:14px; text-align:right;">${row.value}</td>
-                </tr>`;
-            }
-        });
-
-        return `<html><head><meta charset="UTF-8"></head><body style="font-family:sans-serif; padding:20px; background:#f4f4f4;"><div style="max-width:600px; margin:auto; background:#fff; padding:30px; border-radius:10px; box-shadow:0 5px 15px rgba(0,0,0,0.1);"><h2 style="color:#0f172a; border-bottom:3px solid #38bdf8; padding-bottom:10px; margin-top:0;">${title}</h2><p style="font-size:12px; color:#888;">Report Generated: ${new Date().toLocaleString()}</p><table style="width:100%; border-collapse:collapse; margin-top:20px;">${rowsHtml}</table><div style="margin-top:30px; font-size:10px; color:#aaa; text-align:center;">Generated by Excavator Geometry System</div></div></body></html>`;
-    }
-
-    function downloadFile(content, fileName) {
-        const blob = new Blob([content], { type: 'text/html' });
-        const link = document.createElement('a');
-        link.href = URL.createObjectURL(blob);
-        link.download = fileName;
-        link.click();
-    }
-
-    function exportReport1() {
-        const data = [
-            { label: 'General Heading', isHeader: true },
-            { label: 'Machine Heading', value: document.getElementById('out-mH').innerText },
-            { label: 'Antenna Heading', value: document.getElementById('out-antH').innerText },
-            { label: 'Heading Correction', value: document.getElementById('out-hC').innerText },
-            { label: 'Antenna H-Distance', value: document.getElementById('out-antDist').innerText },
-            { label: 'Antenna 1 - Offsets', isHeader: true },
-            { label: 'Forward (Y)', value: document.getElementById('out-a1F').innerText },
-            { label: 'Starboard (X)', value: document.getElementById('out-a1S').innerText },
-            { label: 'Up (Z)', value: document.getElementById('out-a1U').innerText },
-            { label: 'Antenna 2 - Offsets', isHeader: true },
-            { label: 'Forward (Y)', value: document.getElementById('out-a2F').innerText },
-            { label: 'Starboard (X)', value: document.getElementById('out-a2S').innerText },
-            { label: 'Up (Z)', value: document.getElementById('out-a2U').innerText }
-        ];
-        const html = generateHTMLReport('Geometry Report', data);
-        downloadFile(html, 'Geometry_Report.doc');
-    }
-
-    function exportReport2() {
-        const data = [
-            { label: 'GEOMETRY LENGTHS', isHeader: true },
-            { label: 'Boom Length', value: document.getElementById('out-boomL_cal').innerText },
-            { label: 'Stick Length', value: document.getElementById('out-stickL_cal').innerText },
-            { label: 'Boom Stick V (ΔZ)', value: document.getElementById('out-bsv').innerText },
-            { label: 'SUPPORT LEVER ATTACHMENT', isHeader: true },
-            { label: 'S2', value: document.getElementById('out-s2').innerText },
-            { label: 'S3', value: document.getElementById('out-s3').innerText },
-            { label: 'S4', value: document.getElementById('out-s4').innerText },
-            { label: 'S5', value: document.getElementById('out-s5').innerText },
-            { label: 'BUCKET & TEETH', isHeader: true },
-            { label: 'T5 (Holes separation)', value: document.getElementById('out-ts').innerText },
-            { label: 'T1', value: document.getElementById('out-t1').innerText },
-            { label: 'T6 (Tooth angle)', value: document.getElementById('out-t6').innerText }
-        ];
-        const html = generateHTMLReport('Crane Configuration Report', data);
-        downloadFile(html, 'Crane_Config_Report.doc');
-    }
 </script>
 </body>
 </html>
