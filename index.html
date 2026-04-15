@@ -108,9 +108,8 @@
         .res-section-title { font-size: 11px; font-weight: bold; margin-top: 15px; border-bottom: 1px solid #334155; padding-bottom: 5px;}
         .ref-tag { font-size: 9px; color: #94a3b8; text-transform: none; margin-left: 5px; font-weight: normal; }
 
-        .export-group { display: flex; gap: 10px; margin-top: 20px; }
-        .export-btn { flex: 1; padding: 12px; background: transparent; color: var(--accent-blue); border: 2px solid var(--accent-blue); border-radius: 10px; cursor: pointer; font-weight: 800; font-size: 12px; }
-        .report-btn { flex: 1; background: #64748b; color: white; border: none; padding: 12px; border-radius: 10px; cursor: pointer; font-size: 12px; font-weight: bold; }
+        .export-group { display: flex; margin-top: 20px; }
+        .export-btn { flex: 1; padding: 14px; background: var(--accent-blue); color: var(--primary-bg); border: none; border-radius: 10px; cursor: pointer; font-weight: 800; font-size: 14px; }
         
         .action-btns-container { display: flex; gap: 8px; margin: 0 20px 20px; }
         .clear-btn { flex: 1.2; background: #fee2e2; color: #ef4444; border: 1px solid #ef4444; padding: 10px; border-radius: 10px; cursor: pointer; font-weight: bold; font-size: 11px; text-transform: uppercase; }
@@ -216,8 +215,7 @@
             <div class="res-line"><span>Up (Z):</span> <b id="out-a2U">N/A</b></div>
             
             <div class="export-group">
-                <button class="export-btn" onclick="exportFile('geometry', 'html')">Report HTML</button>
-                <button class="report-btn" onclick="exportFile('geometry', 'doc')">Report DOC</button>
+                <button class="export-btn" onclick="exportHTML('geometry')">Download HTML Report</button>
             </div>
         </div>
     </div>
@@ -253,8 +251,7 @@
             <div class="res-line"><span>T6 (Tooth angle):</span> <b id="out-t6" style="color:var(--pds-orange)">N/A</b></div>
             
             <div class="export-group">
-                <button class="export-btn" onclick="exportFile('calibration', 'html')">Report HTML</button>
-                <button class="report-btn" onclick="exportFile('calibration', 'doc')">Report DOC</button>
+                <button class="export-btn" onclick="exportHTML('calibration')">Download HTML Report</button>
             </div>
         </div>
     </div>
@@ -494,76 +491,46 @@
         document.querySelectorAll('.results-area b').forEach(b => b.innerText = 'N/A');
         document.querySelectorAll('.results-area').forEach(div => div.style.display = 'none');
         localStorage.removeItem('excavator_inputs');
-        const resIds = ['out-mH','out-antH','out-hC','out-antDist','out-a1F','out-a1S','out-a1U','out-a2F','out-a2S','out-a2U','out-boomL_cal','out-stickL_cal','out-bsv','out-s2','out-s3','out-s4','out-s5','out-ts','out-t1','out-t6'];
-        resIds.forEach(id => localStorage.removeItem('res_'+id));
-        localStorage.setItem('show_res1', 'false');
-        localStorage.setItem('show_res2', 'false');
+        localStorage.removeItem('show_res1');
+        localStorage.removeItem('show_res2');
     }
 
     function resetHistoryOnly() {
-        if(confirm("Are you sure you want to clear all history?")) {
+        if(confirm("Delete all history?")) {
             localStorage.removeItem('history_geometry');
             localStorage.removeItem('history_calibration');
             alert("History cleared.");
         }
     }
 
-    // --- دالة التصدير الجديدة ---
-    function exportFile(type, format) {
-        const date = new Date().toLocaleString();
-        let title = type === 'geometry' ? 'Excavator Geometry Report' : 'Crane Configuration Report';
-        let resultsId = type === 'geometry' ? 'resultsMeasurements' : 'resultsCalibration';
-        let contentHtml = document.getElementById(resultsId).innerHTML;
-        
-        // تنظيف المحتوى من الأزرار قبل التصدير
-        let tempDiv = document.createElement('div');
-        tempDiv.innerHTML = contentHtml;
-        let buttons = tempDiv.querySelectorAll('button');
-        buttons.forEach(btn => btn.remove());
-        
-        let finalContent = tempDiv.innerHTML;
-
-        let htmlTemplate = `
+    function exportHTML(type) {
+        const results = type === 'geometry' ? document.getElementById('resultsMeasurements').innerHTML : document.getElementById('resultsCalibration').innerHTML;
+        const htmlContent = `
             <html>
             <head>
-                <meta charset="utf-8">
-                <title>${title}</title>
+                <title>Excavator Report - ${type}</title>
                 <style>
-                    body { font-family: sans-serif; padding: 20px; line-height: 1.6; color: #333; }
-                    .header { background: #0f172a; color: white; padding: 15px; text-align: center; border-radius: 8px; }
-                    .res-line { display: flex; justify-content: space-between; border-bottom: 1px solid #eee; padding: 8px 0; }
+                    body { font-family: sans-serif; padding: 20px; color: #333; }
+                    .report-header { background: #0f172a; color: white; padding: 20px; border-radius: 10px; margin-bottom: 20px; }
+                    .res-line { display: flex; justify-content: space-between; padding: 10px; border-bottom: 1px solid #eee; }
                     b { color: #059669; }
-                    .offset-title, .res-section-title { font-weight: bold; margin-top: 20px; color: #38bdf8; border-bottom: 2px solid #38bdf8; }
+                    .export-group { display:none; }
                 </style>
             </head>
             <body>
-                <div class="header">
-                    <h2>${title}</h2>
-                    <p>Date: ${date}</p>
-                    <p>Created by: Mohamed Shehata</p>
+                <div class="report-header">
+                    <h1>Excavator Geometry Report</h1>
+                    <p>Date: ${new Date().toLocaleString()}</p>
+                    <p>Type: ${type.toUpperCase()}</p>
                 </div>
-                <div style="margin-top: 20px;">
-                    ${finalContent}
-                </div>
+                ${results}
             </body>
             </html>
         `;
-
-        let blob;
-        let fileName = `${type}_report_${new Date().getTime()}`;
-        
-        if (format === 'html') {
-            blob = new Blob([htmlTemplate], { type: 'text/html' });
-            fileName += ".html";
-        } else {
-            // تصدير بصيغة DOC (HTML محتوى متوافق مع Word)
-            blob = new Blob(['\ufeff', htmlTemplate], { type: 'application/msword' });
-            fileName += ".doc";
-        }
-
-        let link = document.createElement('a');
+        const blob = new Blob([htmlContent], { type: 'text/html' });
+        const link = document.createElement('a');
         link.href = URL.createObjectURL(blob);
-        link.download = fileName;
+        link.download = `Report_${type}_${new Date().getTime()}.html`;
         link.click();
     }
 </script>
