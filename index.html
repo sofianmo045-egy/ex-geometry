@@ -494,21 +494,87 @@
     }
 
     function clearPageOnly() {
-        document.querySelectorAll('input[type="number"]').forEach(input => input.value = '');
-        document.querySelectorAll('.results-area b').forEach(b => b.innerText = 'N/A');
-        document.querySelectorAll('.results-area').forEach(div => div.style.display = 'none');
-        localStorage.removeItem('excavator_inputs');
-        localStorage.removeItem('show_res1');
-        localStorage.removeItem('show_res2');
+        document.querySelectorAll('input[type="number"]').forEach(input => input.value = "");
+        autoSave();
     }
 
     function resetHistoryOnly() {
-        if(confirm("Delete all history?")) {
+        if(confirm("Are you sure you want to clear all history?")) {
             localStorage.removeItem('history_geometry');
             localStorage.removeItem('history_calibration');
             alert("History cleared.");
         }
     }
+
+    // --- الوظيفة الجديدة لتصدير التقرير الاحترافي ---
+    function exportHTML(type) {
+        const date = new Date().toLocaleString();
+        const title = type === 'geometry' ? 'Excavator Geometry Report' : 'Excavator Crane Calibration Report';
+        let resContent = "";
+        
+        // استخراج النتائج بناءً على النوع
+        const containerId = type === 'geometry' ? 'resultsMeasurements' : 'resultsCalibration';
+        const lines = document.getElementById(containerId).querySelectorAll('.res-line');
+        
+        lines.forEach(line => {
+            const label = line.querySelector('span').innerText;
+            const value = line.querySelector('b').innerText;
+            resContent += `<tr><td>${label}</td><td>${value}</td></tr>`;
+        });
+
+        const reportTemplate = `
+        <!DOCTYPE html>
+        <html lang="en">
+        <head>
+            <meta charset="UTF-8">
+            <title>${title}</title>
+            <style>
+                body { font-family: 'Segoe UI', Tahoma, sans-serif; padding: 40px; color: #1e293b; background: white; }
+                .report-header { text-align: center; border-bottom: 3px solid #0f172a; padding-bottom: 20px; margin-bottom: 30px; }
+                .report-header h1 { color: #0f172a; margin: 0; }
+                .report-info { display: flex; justify-content: space-between; margin-bottom: 30px; font-size: 14px; color: #64748b; }
+                table { width: 100%; border-collapse: collapse; margin-bottom: 30px; }
+                th, td { border: 1px solid #e2e8f0; padding: 12px 15px; text-align: left; }
+                th { background-color: #f8fafc; color: #0f172a; font-weight: bold; }
+                tr:nth-child(even) { background-color: #f1f5f9; }
+                .footer { margin-top: 50px; text-align: center; font-size: 12px; border-top: 1px solid #eee; padding-top: 20px; color: #94a3b8; }
+                @media print { .no-print { display: none; } }
+            </style>
+        </head>
+        <body>
+            <div class="report-header">
+                <h1>${title}</h1>
+                <p>Marine Survey & Construction Support</p>
+            </div>
+            <div class="report-info">
+                <div><strong>Created by:</strong> Mohamed Shehata</div>
+                <div><strong>Date:</strong> ${date}</div>
+            </div>
+            <table>
+                <thead>
+                    <tr><th>Parameter</th><th>Value</th></tr>
+                </thead>
+                <tbody>
+                    ${resContent}
+                </tbody>
+            </table>
+            <div class="footer">
+                This report was generated automatically by Excavator Geometry Assistant.<br>
+                &copy; 2026 Mohamed Shehata | Hydrographic Surveyor
+            </div>
+            <div class="no-print" style="text-align:center; margin-top:20px;">
+                <button onclick="window.print()" style="padding:10px 20px; background:#059669; color:white; border:none; border-radius:5px; cursor:pointer; font-weight:bold;">Print Report / Save as PDF</button>
+            </div>
+        </body>
+        </html>`;
+
+        const blob = new Blob([reportTemplate], { type: 'text/html' });
+        const link = document.createElement('a');
+        link.href = URL.createObjectURL(blob);
+        link.download = `${type}_report_${new Date().getTime()}.html`;
+        link.click();
+    }
 </script>
+
 </body>
 </html>
