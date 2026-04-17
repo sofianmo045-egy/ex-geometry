@@ -89,7 +89,7 @@
         .block-label { font-size: 13px; font-weight: 700; color: #334155; margin-bottom: 8px; display: block; }
 
         .input-row { display: flex; gap: 12px; }
-        .input-row .input-col { flex: 1; }
+        .input-col { flex: 1; }
         .input-col label { font-size: 10px; color: #64748b; font-weight: 600; display: block; margin-bottom: 4px; text-transform: uppercase; }
         .input-col input { 
             width: 100%; padding: 10px; border: 1.5px solid #e2e8f0; 
@@ -256,22 +256,27 @@
     <div id="tab-diagram" class="tab-content">
         <div class="main-container">
             <div class="diagram-container">
+                
                 <div class="diagram-item">
                     <span class="diagram-label">Reference Points & CSV IDs</span>
                     <img src="CSV GUIDE.png" alt="CSV Guide">
                 </div>
+
                 <div class="diagram-item">
                     <span class="diagram-label">General Component Layout</span>
                     <img src="EX GEO.png" alt="General Diagram">
                 </div>
+
                 <div class="diagram-item">
                     <span class="diagram-label">Stick Geometry Offsets (S1-S5)</span>
                     <img src="STICK DIM .png" alt="Stick Dimensions">
                 </div>
+
                 <div class="diagram-item">
                     <span class="diagram-label">Bucket & Teeth Offsets (T1-T6)</span>
                     <img src="BUCKET DIM.png" alt="Bucket Dimensions">
                 </div>
+
             </div>
         </div>
     </div>
@@ -298,120 +303,6 @@
 </div>
 
 <script>
-    // --- الدوال الجديدة المضافة بناءً على طلبك ---
-    const getRes = (id) => {
-        const el = document.getElementById(id);
-        return el ? el.innerText : "N/A";
-    };
-
-    function exportReport1() {
-        const title = "Excavator Geometry Report";
-        const data = [
-            { label: "Machine Heading", value: getRes('out-mH') },
-            { label: "Antenna Heading", value: getRes('out-antH') },
-            { label: "Heading Correction", value: getRes('out-hC'), highlight: true },
-            { label: "Antenna H-Distance", value: getRes('out-antDist') },
-            { category: "Antenna 1 Offsets (Ref: Boom Pin Center)" },
-            { label: "Forward (Y)", value: getRes('out-a1F') },
-            { label: "Starboard (X)", value: getRes('out-a1S') },
-            { label: "Up (Z)", value: getRes('out-a1U') },
-            { category: "Antenna 2 Offsets (Ref: Boom Pin Center)" },
-            { label: "Forward (Y)", value: getRes('out-a2F') },
-            { label: "Starboard (X)", value: getRes('out-a2S') },
-            { label: "Up (Z)", value: getRes('out-a2U') }
-        ];
-        generatePrintableReport(title, data);
-    }
-
-    function exportReport2() {
-        const title = "Crane Configuration Report";
-        const data = [
-            { label: "Boom Length", value: getRes('out-boomL_cal') },
-            { label: "Stick Length", value: getRes('out-stickL_cal') },
-            { label: "Boom Stick V (ΔZ)", value: getRes('out-bsv') },
-            { category: "Support Lever Attachment" },
-            { label: "S2 Offset", value: getRes('out-s2') },
-            { label: "S3 Offset", value: getRes('out-s3') },
-            { label: "S4 Offset", value: getRes('out-s4') },
-            { label: "S5 Offset", value: getRes('out-s5') },
-            { category: "Bucket & Teeth" },
-            { label: "T5 (Holes separation)", value: getRes('out-ts') },
-            { label: "T1 (Bucket Length)", value: getRes('out-t1') },
-            { label: "T6 (Tooth Angle)", value: getRes('out-t6') }
-        ];
-        generatePrintableReport(title, data);
-    }
-
-    function generatePrintableReport(title, items) {
-        const printWindow = window.open('', '_blank');
-        const now = new Date().toLocaleString();
-        
-        let rowsHtml = '';
-        items.forEach(item => {
-            if (item.category) {
-                rowsHtml += `<tr class="category-row"><td colspan="2">${item.category}</td></tr>`;
-            } else {
-                const style = item.highlight ? 'style="color: #059669; font-weight: bold;"' : '';
-                rowsHtml += `<tr><td>${item.label}</td><td ${style}>${item.value}</td></tr>`;
-            }
-        });
-
-        const htmlContent = `
-        <!DOCTYPE html>
-        <html dir="ltr">
-        <head>
-            <title>${title}</title>
-            <style>
-                body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; padding: 40px; color: #1e293b; }
-                .report-header { text-align: center; border-bottom: 3px solid #0f172a; padding-bottom: 20px; margin-bottom: 30px; }
-                .report-header h1 { margin: 0; color: #0f172a; text-transform: uppercase; font-size: 24px; }
-                .meta { display: flex; justify-content: space-between; margin-bottom: 20px; font-size: 13px; color: #64748b; }
-                table { width: 100%; border-collapse: collapse; margin-top: 10px; }
-                th, td { padding: 12px 15px; border: 1px solid #e2e8f0; text-align: left; }
-                tr:nth-child(even) { background-color: #f8fafc; }
-                .category-row { background-color: #1e293b !important; color: white; font-weight: bold; text-transform: uppercase; font-size: 12px; }
-                .footer { margin-top: 50px; border-top: 1px solid #e2e8f0; padding-top: 20px; font-size: 12px; color: #94a3b8; text-align: center; }
-                @media print {
-                    button { display: none; }
-                    body { padding: 0; }
-                    .no-print { display: none; }
-                }
-            </style>
-        </head>
-        <body>
-            <div class="no-print" style="margin-bottom: 20px; text-align: right;">
-                <button onclick="window.print()" style="padding: 10px 20px; background: #059669; color: white; border: none; border-radius: 5px; cursor: pointer;">Print Report / Save as PDF</button>
-            </div>
-            <div class="report-header">
-                <h1>${title}</h1>
-                <p>Hydrographic Surveying & Excavator Geometry</p>
-            </div>
-            <div class="meta">
-                <span><strong>Date:</strong> ${now}</span>
-                <span><strong>Surveyor:</strong> Mohamed Shehata</span>
-            </div>
-            <table>
-                <thead>
-                    <tr style="background: #f1f5f9;">
-                        <th>Parameter Description</th>
-                        <th>Measured Value</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    ${rowsHtml}
-                </tbody>
-            </table>
-            <div class="footer">
-                Generated by Excavator Geometry Tool - Created by Mohamed Shehata
-            </div>
-        </body>
-        </html>`;
-
-        printWindow.document.write(htmlContent);
-        printWindow.document.close();
-    }
-    // --- نهاية الدوال المضافة ---
-
     const getV = (id) => { const el = document.getElementById(id); return el && el.value !== "" ? parseFloat(el.value) : null; };
     const format = (val, unit = "") => (val === null || isNaN(val)) ? "N/A" : val.toFixed(3) + unit;
     function dist3D(p1, p2) { if (!p1 || !p2) return null; return Math.sqrt(Math.pow(p2.x - p1.x, 2) + Math.pow(p2.y - p1.y, 2) + Math.pow(p2.z - p1.z, 2)); }
@@ -425,12 +316,18 @@
         reader.onload = function(e) {
             const rows = e.target.result.split('\n');
             let matchCount = 0;
+
             const mapping = {
-                'A1': ['X1', 'Y1', 'Z1'], 'A2': ['X2', 'Y2', 'Z2'],
-                'BS': ['Xs', 'Ys', 'Zs'], 'BT': ['Xp', 'Yp', 'Zp'],
-                'BU': ['Xb', 'Yb', 'Zb'], 'ST': ['x_st', 'y_st', 'z_st'],
-                'BP': ['x_bu', 'y_bu', 'z_bu'], 'S3': ['x_s3', 'y_s3', 'z_s3'],
-                'S4': ['x_s4', 'y_s4', 'z_s4'], 'S5': ['x_s5', 'y_s5', 'z_s5'],
+                'A1': ['X1', 'Y1', 'Z1'],
+                'A2': ['X2', 'Y2', 'Z2'],
+                'BS': ['Xs', 'Ys', 'Zs'],
+                'BT': ['Xp', 'Yp', 'Zp'],
+                'BU': ['Xb', 'Yb', 'Zb'],
+                'ST': ['x_st', 'y_st', 'z_st'],
+                'BP': ['x_bu', 'y_bu', 'z_bu'],
+                'S3': ['x_s3', 'y_s3', 'z_s3'],
+                'S4': ['x_s4', 'y_s4', 'z_s4'],
+                'S5': ['x_s5', 'y_s5', 'z_s5'],
                 'T1': ['x_t1', 'y_t1', 'z_t1']
             };
 
@@ -453,6 +350,7 @@
                 document.getElementById('y_bp').value = ((ys+yp)/2).toFixed(3);
                 document.getElementById('z_bp').value = ((zs+zp)/2).toFixed(3);
             }
+
             alert(`Imported ${matchCount} points successfully.`);
             autoSave();
         };
@@ -485,8 +383,11 @@
 
     function showHistoryByActiveTab() {
         const activeTabId = document.querySelector('.tab-content.active').id;
-        if (activeTabId === 'tab-measurements') toggleHistory('geometry', 'Geometry History');
-        else if (activeTabId === 'tab-calibration') toggleHistory('calibration', 'Calibration History');
+        if (activeTabId === 'tab-measurements') {
+            toggleHistory('geometry', 'Geometry History');
+        } else if (activeTabId === 'tab-calibration') {
+            toggleHistory('calibration', 'Calibration History');
+        }
     }
 
     function toggleHistory(type, title) {
@@ -496,7 +397,9 @@
         content.innerHTML = history.length ? "" : "No history found.";
         history.forEach(item => {
             let row = `<div class="history-item"><strong>${item.time}</strong><br>`;
-            for (let key in item.data) { row += `${key.replace('out-','')}: ${item.data[key]} | `; }
+            for (let key in item.data) {
+                row += `${key.replace('out-','')}: ${item.data[key]} | `;
+            }
             content.innerHTML += row + `</div>`;
         });
         document.getElementById('historyModal').style.display = 'block';
@@ -508,6 +411,7 @@
             Xs: getV('Xs'), Ys: getV('Ys'), Zs: getV('Zs'), Xp: getV('Xp'), Yp: getV('Yp'), Zp: getV('Zp'),
             Xb: getV('Xb'), Yb: getV('Yb'), Zb: getV('Zb')
         };
+        
         let mH = null, hC = null, antDist = null, antH = null;
         let a1 = {F: null, S: null, U: null}, a2 = {F: null, S: null, U: null};
 
@@ -521,6 +425,7 @@
             const Xc = (d.Xp + d.Xs) / 2, Yc = (d.Yp + d.Ys) / 2, Zc = (d.Zp + d.Zs) / 2;
             const hR = Math.atan2(d.Xb - Xc, d.Yb - Yc);
             mH = ((hR * 180) / Math.PI + 360) % 360;
+            
             const getOffsets = (X, Y, Z) => {
                 if (X === null || Y === null || Z === null) return {F: null, S: null, U: null};
                 return { 
@@ -529,71 +434,126 @@
                     U: Z - Zc 
                 };
             };
+            
             a1 = getOffsets(d.X1, d.Y1, d.Z1);
             a2 = getOffsets(d.X2, d.Y2, d.Z2);
-            if (antH !== null) hC = (antH - mH + 360) % 360;
+            
+            if (antH !== null) {
+                hC = mH - antH;
+                // تحديث منطق الـ heading correction المطلوب
+                if (hC < 0) hC += 180;
+                // الحفاظ على النطاق الهندسي الصحيح بين -180 و 180
+                while (hC > 180) hC -= 360;
+                while (hC < -180) hC += 360;
+            }
         }
 
         const res = {
-            "out-mH": format(mH, "°"), "out-antH": format(antH, "°"), "out-hC": format(hC, "°"),
-            "out-antDist": format(antDist, " m"), "out-a1F": format(a1.F, " m"), "out-a1S": format(a1.S, " m"),
-            "out-a1U": format(a1.U, " m"), "out-a2F": format(a2.F, " m"), "out-a2S": format(a2.S, " m"), "out-a2U": format(a2.U, " m")
+            'out-mH': format(mH, "°"),
+            'out-antH': format(antH, "°"),
+            'out-hC': format(hC, "°"),
+            'out-antDist': format(antDist, " m"),
+            'out-a1F': format(a1.F, " m"),
+            'out-a1S': format(a1.S, " m"),
+            'out-a1U': format(a1.U, " m"),
+            'out-a2F': format(a2.F, " m"),
+            'out-a2S': format(a2.S, " m"),
+            'out-a2U': format(a2.U, " m")
         };
-        for (let id in res) document.getElementById(id).innerText = res[id];
-        document.getElementById('resultsMeasurements').style.display = 'block';
+
+        for (let id in res) {
+            const el = document.getElementById(id);
+            if(el) { el.innerText = res[id]; localStorage.setItem('res_'+id, res[id]); }
+        }
+        document.getElementById('resultsMeasurements').style.display = "block";
+        localStorage.setItem('show_res1', 'true');
         saveHistory('geometry', res);
     }
 
     function calcCalibration() {
-        const p_bp = getP('bp'), p_st = getP('st'), p_bu = getP('bu'), p_s3 = getP('s3'), p_s4 = getP('s4'), p_s5 = getP('s5'), p_t1 = getP('t1');
-        const boomL = dist3D(p_bp, p_st), stickL = dist3D(p_st, p_bu);
-        let bsv = (p_st && p_bp) ? p_st.z - p_bp.z : null;
-        let s2 = (p_st && p_s3) ? dist3D(p_st, p_s3) : null;
-        let s3 = (p_s3 && p_s4) ? dist3D(p_s3, p_s4) : null;
-        let s4 = (p_s4 && p_s5) ? dist3D(p_s4, p_s5) : null;
-        let s5 = (p_st && p_s5) ? dist3D(p_st, p_s5) : null;
-        let t1 = (p_bu && p_t1) ? dist3D(p_bu, p_t1) : null;
-        let t5 = (p_bu && p_s4) ? dist3D(p_bu, p_s4) : null;
-        let t6 = null;
-        if (t1 && t5 && s4) {
-            const cosT6 = (t1*t1 + t5*t5 - s4*s4) / (2 * t1 * t5);
-            t6 = Math.acos(Math.max(-1, Math.min(1, cosT6))) * (180/Math.PI);
+        const BP = getP('bp'), ST = getP('st'), BU = getP('bu'), S3 = getP('s3'), S4 = getP('s4'), S5 = getP('s5'), T1 = getP('t1');
+        const s1 = (ST && BU) ? dist3D(ST, BU) : null;
+        let s3_val = null, s2_val = null, t6_val = null, bsv = null;
+
+        if (BP && ST) bsv = ST.z - BP.z;
+        if (s1 && S3) {
+            const v_st_bu = { x: BU.x - ST.x, y: BU.y - ST.y, z: BU.z - ST.z };
+            const v_st_s3 = { x: S3.x - ST.x, y: S3.y - ST.y, z: S3.z - ST.z };
+            const cp = { x: v_st_s3.y * v_st_bu.z - v_st_s3.z * v_st_bu.y, y: v_st_s3.z * v_st_bu.x - v_st_s3.x * v_st_bu.z, z: v_st_s3.x * v_st_bu.y - v_st_s3.y * v_st_bu.x };
+            s3_val = Math.sqrt(cp.x**2 + cp.y**2 + cp.z**2) / s1;
+            const v_bu_st = { x: ST.x - BU.x, y: ST.y - BU.y, z: ST.z - BU.z };
+            const v_bu_s3 = { x: S3.x - BU.x, y: S3.y - BU.y, z: S3.z - BU.z };
+            s2_val = (v_bu_s3.x * v_bu_st.x + v_bu_s3.y * v_bu_st.y + v_bu_s3.z * v_bu_st.z) / s1; 
+        }
+        if (T1 && BU && S5) {
+            const vT1 = { x: T1.x - BU.x, y: T1.y - BU.y, z: T1.z - BU.z };
+            const vS5 = { x: S5.x - BU.x, y: S5.y - BU.y, z: S5.z - BU.z };
+            const m1 = Math.sqrt(vT1.x**2 + vT1.y**2 + vT1.z**2), m2 = Math.sqrt(vS5.x**2 + vS5.y**2 + vS5.z**2);
+            if (m1 > 0 && m2 > 0) t6_val = Math.acos(Math.max(-1, Math.min(1, (vT1.x * vS5.x + vT1.y * vS5.y + vT1.z * vS5.z) / (m1 * m2)))) * (180 / Math.PI);
         }
 
         const res = {
-            "out-boomL_cal": format(boomL, " m"), "out-stickL_cal": format(stickL, " m"), "out-bsv": format(bsv, " m"),
-            "out-s2": format(s2, " m"), "out-s3": format(s3, " m"), "out-s4": format(s4, " m"), "out-s5": format(s5, " m"),
-            "out-t1": format(t1, " m"), "out-ts": format(t5, " m"), "out-t6": format(t6, "°")
+            'out-boomL_cal': format(dist3D(BP, ST), " m"),
+            'out-stickL_cal': format(s1, " m"),
+            'out-bsv': format(bsv, " m"),
+            'out-s2': format(s2_val, " m"),
+            'out-s3': format(s3_val, " m"),
+            'out-s4': format(dist3D(S3, S4), " m"),
+            'out-s5': format(dist3D(S4, S5), " m"),
+            'out-ts': format(dist3D(BU, S5), " m"), 
+            'out-t1': format(dist3D(T1, BU), " m"), 
+            'out-t6': format(t6_val, "°")
         };
-        for (let id in res) document.getElementById(id).innerText = res[id];
-        document.getElementById('resultsCalibration').style.display = 'block';
+
+        for (let id in res) {
+            document.getElementById(id).innerHTML = res[id];
+            localStorage.setItem('res_'+id, res[id]);
+        }
+        document.getElementById('resultsCalibration').style.display = "block";
+        localStorage.setItem('show_res2', 'true');
         saveHistory('calibration', res);
     }
 
     function autoSave() {
-        const data = {};
-        document.querySelectorAll('.saveable').forEach(el => { data[el.id] = el.value; });
-        localStorage.setItem('excavator_data', JSON.stringify(data));
+        const inputs = {};
+        document.querySelectorAll('.saveable').forEach(el => { inputs[el.id] = el.value; });
+        localStorage.setItem('excavator_inputs', JSON.stringify(inputs));
     }
 
     function autoLoad() {
-        const saved = localStorage.getItem('excavator_data');
-        if (saved) {
-            const data = JSON.parse(saved);
-            for (let id in data) { const el = document.getElementById(id); if (el) el.value = data[id]; }
+        const savedInputs = JSON.parse(localStorage.getItem('excavator_inputs'));
+        if (savedInputs) {
+            for (let id in savedInputs) {
+                const el = document.getElementById(id);
+                if (el) el.value = savedInputs[id];
+            }
         }
-        const activeTab = localStorage.getItem('active_tab') || 'tab-measurements';
-        document.getElementById('btn-' + activeTab.split('-')[1]).click();
+        const resIds = ['out-mH','out-antH','out-hC','out-antDist','out-a1F','out-a1S','out-a1U','out-a2F','out-a2S','out-a2U','out-boomL_cal','out-stickL_cal','out-bsv','out-s2','out-s3','out-s4','out-s5','out-ts','out-t1','out-t6'];
+        resIds.forEach(id => {
+            const val = localStorage.getItem('res_'+id);
+            if (val) document.getElementById(id).innerHTML = val;
+        });
+        if (localStorage.getItem('show_res1') === 'true') document.getElementById('resultsMeasurements').style.display = "block";
+        if (localStorage.getItem('show_res2') === 'true') document.getElementById('resultsCalibration').style.display = "block";
+        const activeTab = localStorage.getItem('active_tab');
+        if (activeTab) {
+            const tabBtn = document.getElementById('btn-' + activeTab.split('-')[1]);
+            if (tabBtn) tabBtn.click();
+        }
     }
 
     function clearPageOnly() {
-        document.querySelectorAll('input').forEach(el => el.value = "");
-        document.querySelectorAll('.results-area b').forEach(el => el.innerText = "N/A");
-        localStorage.removeItem('excavator_data');
+        document.querySelectorAll('input').forEach(i => i.value = "");
+        document.querySelectorAll('.results-area b').forEach(b => b.innerText = "N/A");
+        document.getElementById('resultsMeasurements').style.display = "none";
+        document.getElementById('resultsCalibration').style.display = "none";
+        localStorage.removeItem('excavator_inputs');
+        localStorage.setItem('show_res1', 'false');
+        localStorage.setItem('show_res2', 'false');
     }
 
     function resetHistoryOnly() {
-        if (confirm("Delete all history?")) {
+        if(confirm("Are you sure you want to clear all history?")) {
             localStorage.removeItem('history_geometry');
             localStorage.removeItem('history_calibration');
             alert("History cleared.");
