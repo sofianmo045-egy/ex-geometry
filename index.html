@@ -142,14 +142,14 @@
         <button class="tab-btn active" id="btn-measurements" onclick="openTab(event, 'tab-measurements')">Geometry</button>
         <button class="tab-btn" id="btn-calibration" onclick="openTab(event, 'tab-calibration')">Crane Config</button>
         <button class="tab-btn" id="btn-diagram" onclick="openTab(event, 'tab-diagram')">Diagram</button>
+        <button onclick="document.getElementById('csvFileInput').click()" style="width:100%; padding:10px; background:#ef4444; color:white; border:none; border-radius:8px; font-weight:bold; cursor:pointer; font-size:13px;">
+                📂 Import Survey CSV (ID, X, Y, Z)
+            </button>
     </div>
 
     <div id="tab-measurements" class="tab-content active">
         <div style="padding: 15px 20px; background: #fff5f5; border-bottom: 1px solid #fee2e2;">
             <input type="file" id="csvFileInput" accept=".csv" style="display: none;" onchange="handleCSV(this)">
-            <button onclick="document.getElementById('csvFileInput').click()" style="width:100%; padding:10px; background:#ef4444; color:white; border:none; border-radius:8px; font-weight:bold; cursor:pointer; font-size:13px;">
-                📂 Import Survey CSV (ID, X, Y, Z)
-            </button>
         </div>
 
         <div class="group" style="background: #f8fbff; margin-top:10px;">
