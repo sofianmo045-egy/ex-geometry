@@ -48,18 +48,12 @@
         .tab-btn { 
             flex: 1; padding: 15px 5px; text-align: center; color: var(--text-gray); 
             background: none; border: none; font-weight: bold; cursor: pointer; 
-            transition: 0.3s; font-size: 11px; text-transform: uppercase;
+            transition: 0.3s; font-size: 12px; text-transform: uppercase;
         }
         .tab-btn.active { color: #fff; border-bottom: 3px solid var(--accent-blue); background: var(--primary-bg); }
         .tab-content { display: none; }
         .tab-content.active { display: block; animation: fadeIn 0.4s ease; }
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-
-        /* Help Styles */
-        .help-section { padding: 15px; line-height: 1.6; color: #334155; }
-        .help-item { margin-bottom: 15px; border-bottom: 1px solid #edf2f7; padding-bottom: 10px; }
-        .help-title { font-weight: bold; color: var(--primary-bg); display: block; margin-bottom: 5px; font-size: 14px; }
-        .help-text { font-size: 13px; color: #64748b; }
 
         /* Styles for Diagrams */
         .diagram-container { width: 100%; background: #fff; padding: 10px 0; text-align: center; }
@@ -144,7 +138,7 @@
         </div>
     </div>
 
-  <div class="tabs">
+    <div class="tabs">
         <button class="tab-btn active" id="btn-measurements" onclick="openTab(event, 'tab-measurements')">Geometry</button>
         <button class="tab-btn" id="btn-calibration" onclick="openTab(event, 'tab-calibration')">Crane Config</button>
         <button class="tab-btn" id="btn-help" onclick="openTab(event, 'tab-help')">Help</button>
@@ -155,8 +149,9 @@
         <button onclick="document.getElementById('csvFileInput').click()" 
                 style="width:100%; padding:12px; background:#ef4444; color:white; border:none; border-radius:8px; font-weight:bold; cursor:pointer; font-size:14px; display: flex; align-items: center; justify-content: center; gap: 8px;">
             <span>📂</span> Import Survey CSV (ID, X, Y, Z)
-        </button>
+            </button>
     </div>
+
     <div id="tab-measurements" class="tab-content active">
         <div style="padding: 15px 20px; background: #fff5f5; border-bottom: 1px solid #fee2e2;">
             <input type="file" id="csvFileInput" accept=".csv" style="display: none;" onchange="handleCSV(this)">
@@ -190,7 +185,7 @@
         </div>
 
         <div class="group">
-            <span class="group-title"><span class="id-badge">BT</span> BOOM PIN PORTSIDE</span>
+            <span class="group-title"><span class="id-badge">BT</span> BOOM PIN PORTSSIDE</span>
             <div class="input-row">
                 <div class="input-col"><label>Xp</label><input type="number" step="0.001" id="Xp" class="saveable" oninput="autoSave()"></div>
                 <div class="input-col"><label>Yp</label><input type="number" step="0.001" id="Yp" class="saveable" oninput="autoSave()"></div>
@@ -263,64 +258,65 @@
         </div>
     </div>
 
-   <
-       <div id="tab-help" class="tab-content">
-    <div class="main-container help-section">
-        
-        <div style="background: #e0f2fe; padding: 15px; border-radius: 10px; border-left: 5px solid #38bdf8; margin-bottom: 20px;">
-            <p style="margin: 0; font-size: 14px; color: #0369a1; line-height: 1.5;">
-                <strong>Note:</strong> Please refer to the <strong>Diagram</strong> tab to visualize the points to be surveyed and understand what each element represents in both inputs and calculation results.
-            </p>
-        </div>
-
-        <div style="background: #fff9db; padding: 15px; border-radius: 10px; border-left: 5px solid #f59e0b; margin-bottom: 20px;">
-            <p style="margin: 0; font-size: 14px; color: #856404; line-height: 1.5;">
-                <strong>Important:</strong> This application is a support tool that provides results based on the data provided. Therefore, the most critical factor is <strong>surveying accuracy</strong> to obtain precise results.
-            </p>
-        </div>
-
-        <div class="help-item">
-            <span class="help-title">* Best Practices for Accuracy</span>
-            <ul class="help-text" style="padding-left: 20px;">
-                <li>The excavator should be in a level position (Pitch and Roll as close to 0 as possible).</li>
-                <li>It is preferred to extend the excavator arm to the maximum reach to ensure higher accuracy in <strong>Heading</strong> calculations.</li>
-            </ul>
-        </div>
-
-        <div class="help-item">
-            <span class="help-title">* Import Survey CSV</span>
-            <p class="help-text">
-              You can enter the points manually or upload them as a CSV file to avoid typing errors and save time. 
-              The file must contain: (ID, Easting, Northing, Elevation). 
-                <strong>Note:</strong> Points do not need to be in any specific order; the app will automatically assign each point based on its ID (A1, A2, BS, BT, BU, ST, BP, S3, S4, S5, T1), regardless of their sequence in the CSV file.
-            </p>
-        </div>
-
-        <div class="help-item">
-            <span class="help-title">* Support & Suggestions</span>
-            <p class="help-text">For any inquiries or suggestions, you can click on my name in the header to be redirected to my contact page.</p>
+    <div id="tab-help" class="tab-content">
+        <div class="main-container help-section">
+            <div style="background: #e0f2fe; padding: 15px; border-radius: 10px; border-left: 5px solid #38bdf8; margin-bottom: 20px;">
+                <p style="margin: 0; font-size: 14px; color: #0369a1; line-height: 1.5;">
+                    <strong>Note:</strong> Please refer to the <strong>Diagram</strong> tab to visualize the points to be surveyed and understand what each element represents in both inputs and calculation results.
+                </p>
+            </div>
+            <div style="background: #fff9db; padding: 15px; border-radius: 10px; border-left: 5px solid #f59e0b; margin-bottom: 20px;">
+                <p style="margin: 0; font-size: 14px; color: #856404; line-height: 1.5;">
+                    <strong>Important:</strong> This application is a support tool that provides results based on the data provided. Therefore, the most critical factor is <strong>surveying accuracy</strong> to obtain precise results.
+                </p>
+            </div>
+            <div class="help-item">
+                <span class="help-title">1. Best Practices for Accuracy</span>
+                <ul class="help-text" style="padding-left: 20px;">
+                    <li>The excavator should be in a level position (Pitch and Roll as close to 0 as possible).</li>
+                    <li>It is preferred to extend the excavator arm to the maximum reach to ensure higher accuracy in <strong>Heading</strong> calculations.</li>
+                </ul>
+            </div>
+            <div class="help-item">
+                <span class="help-title">2. Import Survey CSV</span>
+                <p class="help-text">
+                    You can enter the points manually or upload them as a CSV file to avoid typing errors and save time. 
+                    The file must contain: (ID, Easting, Northing, Level). 
+                    <br><br>
+                    <strong>Note:</strong> Points do not need to be in any specific order; the app will automatically assign each point based on its ID (A1, A2, BS, BT, BU, ST, BP, S3, S4, S5, T1), regardless of their sequence in the CSV file.
+                </p>
+            </div>
+            <div class="help-item">
+                <span class="help-title">3. Support & Suggestions</span>
+                <p class="help-text">For any inquiries or suggestions, you can click on my name in the header to be redirected to my contact page.</p>
+            </div>
         </div>
     </div>
-</div>
+
     <div id="tab-diagram" class="tab-content">
         <div class="main-container">
             <div class="diagram-container">
+                
                 <div class="diagram-item">
                     <span class="diagram-label">Reference Points & CSV IDs</span>
                     <img src="CSV GUIDE.png" alt="CSV Guide">
                 </div>
+
                 <div class="diagram-item">
                     <span class="diagram-label">General Component Layout</span>
                     <img src="EX GEO.png" alt="General Diagram">
                 </div>
+
                 <div class="diagram-item">
                     <span class="diagram-label">Stick Geometry Offsets (S1-S5)</span>
                     <img src="STICK DIM .png" alt="Stick Dimensions">
                 </div>
+
                 <div class="diagram-item">
                     <span class="diagram-label">Bucket & Teeth Offsets (T1-T6)</span>
                     <img src="BUCKET DIM.png" alt="Bucket Dimensions">
                 </div>
+
             </div>
         </div>
     </div>
@@ -572,14 +568,10 @@
         const resIds = ['out-mH','out-antH','out-hC','out-antDist','out-a1F','out-a1S','out-a1U','out-a2F','out-a2S','out-a2U','out-boomL_cal','out-stickL_cal','out-bsv','out-s2','out-s3','out-s4','out-s5','out-ts','out-t1','out-t6'];
         resIds.forEach(id => {
             const val = localStorage.getItem('res_'+id);
-            if (val) {
-                const el = document.getElementById(id);
-                if(el) el.innerHTML = val;
-            }
+            if (val) document.getElementById(id).innerHTML = val;
         });
         if (localStorage.getItem('show_res1') === 'true') document.getElementById('resultsMeasurements').style.display = "block";
         if (localStorage.getItem('show_res2') === 'true') document.getElementById('resultsCalibration').style.display = "block";
-        
         const activeTab = localStorage.getItem('active_tab');
         if (activeTab) {
             const btnId = activeTab === 'tab-measurements' ? 'btn-measurements' : (activeTab === 'tab-calibration' ? 'btn-calibration' : (activeTab === 'tab-help' ? 'btn-help' : 'btn-diagram'));
@@ -620,41 +612,41 @@
 
     function exportReport1() {
         const rows = [
-            {label: "Geometry Summary", isHeader: true},
-            {label: "Machine Heading", value: document.getElementById('out-mH').innerText},
-            {label: "Antenna Heading", value: document.getElementById('out-antH').innerText},
-            {label: "Heading Correction", value: document.getElementById('out-hC').innerText},
-            {label: "Antenna H-Distance", value: document.getElementById('out-antDist').innerText},
-            {label: "Antenna 1 Offsets", isHeader: true},
-            {label: "Forward (Y)", value: document.getElementById('out-a1F').innerText},
-            {label: "Starboard (X)", value: document.getElementById('out-a1S').innerText},
-            {label: "Up (Z)", value: document.getElementById('out-a1U').innerText},
-            {label: "Antenna 2 Offsets", isHeader: true},
-            {label: "Forward (Y)", value: document.getElementById('out-a2F').innerText},
-            {label: "Starboard (X)", value: document.getElementById('out-a2S').innerText},
-            {label: "Up (Z)", value: document.getElementById('out-a2U').innerText}
+            {label: \"Geometry Summary\", isHeader: true},
+            {label: \"Machine Heading\", value: document.getElementById('out-mH').innerText},
+            {label: \"Antenna Heading\", value: document.getElementById('out-antH').innerText},
+            {label: \"Heading Correction\", value: document.getElementById('out-hC').innerText},
+            {label: \"Antenna H-Distance\", value: document.getElementById('out-antDist').innerText},
+            {label: \"Antenna 1 Offsets\", isHeader: true},
+            {label: \"Forward (Y)\", value: document.getElementById('out-a1F').innerText},
+            {label: \"Starboard (X)\", value: document.getElementById('out-a1S').innerText},
+            {label: \"Up (Z)\", value: document.getElementById('out-a1U').innerText},
+            {label: \"Antenna 2 Offsets\", isHeader: true},
+            {label: \"Forward (Y)\", value: document.getElementById('out-a2F').innerText},
+            {label: \"Starboard (X)\", value: document.getElementById('out-a2S').innerText},
+            {label: \"Up (Z)\", value: document.getElementById('out-a2U').innerText}
         ];
-        const blob = new Blob([generateHTMLReport("Excavator Geometry Report", rows)], {type: 'text/html'});
+        const blob = new Blob([generateHTMLReport(\"Excavator Geometry Report\", rows)], {type: 'text/html'});
         const link = document.createElement('a'); link.href = URL.createObjectURL(blob); link.download = 'Geometry_Report.html'; link.click();
     }
 
     function exportReport2() {
         const rows = [
-            {label: "Geometry Lengths", isHeader: true},
-            {label: "Boom Length", value: document.getElementById('out-boomL_cal').innerText},
-            {label: "Stick Length", value: document.getElementById('out-stickL_cal').innerText},
-            {label: "Boom Stick V (ΔZ)", value: document.getElementById('out-bsv').innerText},
-            {label: "Lever Attachment", isHeader: true},
-            {label: "S2 Offset", value: document.getElementById('out-s2').innerText},
-            {label: "S3 Offset", value: document.getElementById('out-s3').innerText},
-            {label: "S4 Offset", value: document.getElementById('out-s4').innerText},
-            {label: "S5 Offset", value: document.getElementById('out-s5').innerText},
-            {label: "Bucket & Teeth", isHeader: true},
-            {label: "T5 Separation", value: document.getElementById('out-ts').innerText},
-            {label: "T1 Tooth Length", value: document.getElementById('out-t1').innerText},
-            {label: "T6 Tooth Angle", value: document.getElementById('out-t6').innerText}
+            {label: \"Geometry Lengths\", isHeader: true},
+            {label: \"Boom Length\", value: document.getElementById('out-boomL_cal').innerText},
+            {label: \"Stick Length\", value: document.getElementById('out-stickL_cal').innerText},
+            {label: \"Boom Stick V (ΔZ)\", value: document.getElementById('out-bsv').innerText},
+            {label: \"Lever Attachment\", isHeader: true},
+            {label: \"S2 Offset\", value: document.getElementById('out-s2').innerText},
+            {label: \"S3 Offset\", value: document.getElementById('out-s3').innerText},
+            {label: \"S4 Offset\", value: document.getElementById('out-s4').innerText},
+            {label: \"S5 Offset\", value: document.getElementById('out-s5').innerText},
+            {label: \"Bucket & Teeth\", isHeader: true},
+            {label: \"T5 Separation\", value: document.getElementById('out-ts').innerText},
+            {label: \"T1 Tooth Length\", value: document.getElementById('out-t1').innerText},
+            {label: \"T6 Tooth Angle\", value: document.getElementById('out-t6').innerText}
         ];
-        const blob = new Blob([generateHTMLReport("Crane Configuration Report", rows)], {type: 'text/html'});
+        const blob = new Blob([generateHTMLReport(\"Crane Configuration Report\", rows)], {type: 'text/html'});
         const link = document.createElement('a'); link.href = URL.createObjectURL(blob); link.download = 'Crane_Config_Report.html'; link.click();
     }
 </script>
