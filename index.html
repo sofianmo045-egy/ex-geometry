@@ -55,6 +55,12 @@
         .tab-content.active { display: block; animation: fadeIn 0.4s ease; }
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
+        /* Help Styles */
+        .help-section { padding: 15px; line-height: 1.6; color: #334155; }
+        .help-item { margin-bottom: 15px; border-bottom: 1px solid #edf2f7; padding-bottom: 10px; }
+        .help-title { font-weight: bold; color: var(--primary-bg); display: block; margin-bottom: 5px; font-size: 14px; }
+        .help-text { font-size: 13px; color: #64748b; }
+
         /* Styles for Diagrams */
         .diagram-container { width: 100%; background: #fff; padding: 10px 0; text-align: center; }
         .diagram-item {
@@ -141,7 +147,7 @@
     <div class="tabs">
         <button class="tab-btn active" id="btn-measurements" onclick="openTab(event, 'tab-measurements')">Geometry</button>
         <button class="tab-btn" id="btn-calibration" onclick="openTab(event, 'tab-calibration')">Crane Config</button>
-        <button class="tab-btn" id="btn-verify" onclick="openTab(event, 'tab-verify')">Verification</button>
+        <button class="tab-btn" id="btn-help" onclick="openTab(event, 'tab-help')">Help</button>
         <button class="tab-btn" id="btn-diagram" onclick="openTab(event, 'tab-diagram')">Diagram</button>
     </div>
 
@@ -258,66 +264,46 @@
         </div>
     </div>
 
-    <div id="tab-verify" class="tab-content">
-        <div class="main-container">
-            <div class="group" style="background: #fdf2f2; margin-bottom: 15px; border: 1px solid #fee2e2; border-radius: 12px;">
-                <span class="group-title" style="color: #dc2626;">SYSTEM POSITION (SOFTWARE)</span>
-                <div class="input-row">
-                    <div class="input-col"><label>EASTING (X)</label><input type="number" step="0.001" id="v_sysX" class="saveable" oninput="autoSave()"></div>
-                    <div class="input-col"><label>NORTHING (Y)</label><input type="number" step="0.001" id="v_sysY" class="saveable" oninput="autoSave()"></div>
-                    <div class="input-col"><label>LEVEL (Z)</label><input type="number" step="0.001" id="v_sysZ" class="saveable" oninput="autoSave()"></div>
-                </div>
+    <div id="tab-help" class="tab-content">
+        <div class="main-container help-section">
+            <div class="help-item">
+                <span class="help-title">1. استيراد ملف الـ Survey (CSV)</span>
+                <p class="help-text">يجب أن يحتوي ملف CSV على الأعمدة التالية بالترتيب: (ID, Easting, Northing, Level). تأكد من استخدام الأكواد (A1, A2, BS, BT, BU) للتعرف التلقائي.</p>
             </div>
-
-            <div class="group" style="background: #f0fdf4; border: 1px solid #dcfce7; border-radius: 12px;">
-                <span class="group-title" style="color: #16a34a;">SURVEY POSITION (OBSERVED)</span>
-                <div class="input-row">
-                    <div class="input-col"><label>EASTING (X)</label><input type="number" step="0.001" id="v_surX" class="saveable" oninput="autoSave()"></div>
-                    <div class="input-col"><label>NORTHING (Y)</label><input type="number" step="0.001" id="v_surY" class="saveable" oninput="autoSave()"></div>
-                    <div class="input-col"><label>LEVEL (Z)</label><input type="number" step="0.001" id="v_surZ" class="saveable" oninput="autoSave()"></div>
-                </div>
+            <div class="help-item">
+                <span class="help-title">2. تبويب Geometry</span>
+                <p class="help-text">يستخدم لحساب Offsets الهوائيات (Antennas) بالنسبة لمركز الـ Boom Pin. يتم حساب Heading الماكينة وتصحيح زاوية الهوائيات تلقائياً.</p>
             </div>
-        </div>
-
-        <button class="calc-btn" style="background: #1e293b;" onclick="calcVerification()">Verify Positioning</button>
-
-        <div id="resultsVerify" class="results-area" style="background: #0f172a;">
-            <div style="border-bottom: 2px solid #ef4444; padding-bottom: 10px; font-size: 16px; font-weight: bold; color: #ef4444;">POSITIONING DIFF (SYS - SUR)</div>
-            <div class="res-line"><span>Delta Easting (ΔX):</span> <b id="out-dX">N/A</b></div>
-            <div class="res-line"><span>Delta Northing (ΔY):</span> <b id="out-dY">N/A</b></div>
-            <div class="res-line"><span>Delta Level (ΔZ):</span> <b id="out-dZ">N/A</b></div>
-            <div class="res-line" style="margin-top: 15px; border-top: 1px solid #334155; padding-top: 10px; color: #38bdf8;">
-                <span>Horizontal Error:</span> <b id="out-hErr" style="color: #38bdf8;">N/A</b>
+            <div class="help-item">
+                <span class="help-title">3. تبويب Crane Config</span>
+                <p class="help-text">مخصص لحساب أطوال الوصلات (Boom, Stick) وزوايا واتجاهات السكاكين (S2, S3, S4) وحسابات زاوية أسنان الكراكة (T6) لاستخدامها في برنامج Trimble PDS.</p>
             </div>
-            <div class="res-line" style="color: #38bdf8;">
-                <span>3D Spatial Error:</span> <b id="out-3dErr" style="color: #38bdf8;">N/A</b>
+            <div class="help-item">
+                <span class="help-title">4. الحفظ التلقائي والسجل</span>
+                <p class="help-text">التطبيق يحفظ آخر مدخلات تلقائياً. يمكنك الضغط على History لمراجعة آخر 10 عمليات حسابية قمت بها.</p>
             </div>
         </div>
     </div>
+
     <div id="tab-diagram" class="tab-content">
         <div class="main-container">
             <div class="diagram-container">
-                
                 <div class="diagram-item">
                     <span class="diagram-label">Reference Points & CSV IDs</span>
                     <img src="CSV GUIDE.png" alt="CSV Guide">
                 </div>
-
                 <div class="diagram-item">
                     <span class="diagram-label">General Component Layout</span>
                     <img src="EX GEO.png" alt="General Diagram">
                 </div>
-
                 <div class="diagram-item">
                     <span class="diagram-label">Stick Geometry Offsets (S1-S5)</span>
                     <img src="STICK DIM .png" alt="Stick Dimensions">
                 </div>
-
                 <div class="diagram-item">
                     <span class="diagram-label">Bucket & Teeth Offsets (T1-T6)</span>
                     <img src="BUCKET DIM.png" alt="Bucket Dimensions">
                 </div>
-
             </div>
         </div>
     </div>
@@ -428,8 +414,6 @@
             toggleHistory('geometry', 'Geometry History');
         } else if (activeTabId === 'tab-calibration') {
             toggleHistory('calibration', 'Calibration History');
-        } else if (activeTabId === 'tab-verify') {
-            toggleHistory('verification', 'Verification History');
         }
     }
 
@@ -554,36 +538,6 @@
         saveHistory('calibration', res);
     }
 
-    // FUNCTION FOR VERIFICATION TAB
-    function calcVerification() {
-        const sx = getV('v_sysX'), sy = getV('v_sysY'), sz = getV('v_sysZ');
-        const ux = getV('v_surX'), uy = getV('v_surY'), uz = getV('v_surZ');
-
-        if (sx === null || sy === null || sz === null || ux === null || uy === null || uz === null) return;
-
-        const dX = sx - ux;
-        const dY = sy - uy;
-        const dZ = sz - uz;
-        const hErr = Math.sqrt(dX**2 + dY**2);
-        const spatialErr = Math.sqrt(dX**2 + dY**2 + dZ**2);
-
-        const res = {
-            'out-dX': format(dX, " m"),
-            'out-dY': format(dY, " m"),
-            'out-dZ': format(dZ, " m"),
-            'out-hErr': format(hErr, " m"),
-            'out-3dErr': format(spatialErr, " m")
-        };
-
-        for (let id in res) {
-            document.getElementById(id).innerText = res[id];
-            localStorage.setItem('res_'+id, res[id]);
-        }
-        document.getElementById('resultsVerify').style.display = "block";
-        localStorage.setItem('show_res3', 'true');
-        saveHistory('verification', res);
-    }
-
     function autoSave() {
         const inputs = {};
         document.querySelectorAll('.saveable').forEach(el => { inputs[el.id] = el.value; });
@@ -598,7 +552,7 @@
                 if (el) el.value = savedInputs[id];
             }
         }
-        const resIds = ['out-mH','out-antH','out-hC','out-antDist','out-a1F','out-a1S','out-a1U','out-a2F','out-a2S','out-a2U','out-boomL_cal','out-stickL_cal','out-bsv','out-s2','out-s3','out-s4','out-s5','out-ts','out-t1','out-t6', 'out-dX', 'out-dY', 'out-dZ', 'out-hErr', 'out-3dErr'];
+        const resIds = ['out-mH','out-antH','out-hC','out-antDist','out-a1F','out-a1S','out-a1U','out-a2F','out-a2S','out-a2U','out-boomL_cal','out-stickL_cal','out-bsv','out-s2','out-s3','out-s4','out-s5','out-ts','out-t1','out-t6'];
         resIds.forEach(id => {
             const val = localStorage.getItem('res_'+id);
             if (val) {
@@ -608,11 +562,10 @@
         });
         if (localStorage.getItem('show_res1') === 'true') document.getElementById('resultsMeasurements').style.display = "block";
         if (localStorage.getItem('show_res2') === 'true') document.getElementById('resultsCalibration').style.display = "block";
-        if (localStorage.getItem('show_res3') === 'true') document.getElementById('resultsVerify').style.display = "block";
         
         const activeTab = localStorage.getItem('active_tab');
         if (activeTab) {
-            const btnId = activeTab === 'tab-measurements' ? 'btn-measurements' : (activeTab === 'tab-calibration' ? 'btn-calibration' : (activeTab === 'tab-verify' ? 'btn-verify' : 'btn-diagram'));
+            const btnId = activeTab === 'tab-measurements' ? 'btn-measurements' : (activeTab === 'tab-calibration' ? 'btn-calibration' : (activeTab === 'tab-help' ? 'btn-help' : 'btn-diagram'));
             const btn = document.getElementById(btnId);
             if (btn) btn.click();
         }
