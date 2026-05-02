@@ -685,6 +685,7 @@
         <body><h2 style="color:#0f172a;border-bottom:3px solid #38bdf8;padding-bottom:10px;">${title}</h2><table>${rowsHtml}</table></body></html>`;
     }
 
+    <script>
    function exportReport1() {
     // Get Surveyor and Machine info
     const sName = document.getElementById('surveyor_name').value || "N/A";
@@ -758,7 +759,8 @@ function exportReport2() {
     link.download = `Crane_Config_${mNo}.html`; 
     link.click();
 } 
-
+    <script> 
+        
     <script>
     // 1. Splash Screen Display Logic
     window.addEventListener('load', function() {
