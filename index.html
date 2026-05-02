@@ -752,7 +752,15 @@
         {label: "Surveyor Name", value: sName},
         {label: "Machine Model", value: mModel},
         {label: "Excavator No.", value: mNo},
-        {label: "Date", value: new Date().toLocaleDateString()},
+        {
+    label: "Date", 
+    value: new Date().toLocaleDateString('en-GB', { 
+        weekday: 'long', 
+        year: 'numeric', 
+        month: 'long', 
+        day: '2-digit' 
+    })
+},
         
         {label: "GEOMETRY SUMMARY", isHeader: true},
         {label: "Machine Heading", value: document.getElementById('out-mH').innerText},
@@ -789,7 +797,15 @@ function exportReport2() {
         {label: "Surveyor Name", value: sName},
         {label: "Machine Model", value: mModel},
         {label: "Excavator No.", value: mNo},
-        {label: "Date", value: new Date().toLocaleDateString()},
+        {
+    label: "Date", 
+    value: new Date().toLocaleDateString('en-GB', { 
+        weekday: 'long', 
+        year: 'numeric', 
+        month: 'long', 
+        day: '2-digit' 
+    })
+},
 
         {label: "GEOMETRY LENGTHS", isHeader: true},
         {label: "Boom Length", value: document.getElementById('out-boomL_cal').innerText},
